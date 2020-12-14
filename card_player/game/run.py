@@ -2,6 +2,7 @@ import sys
 from random import randint
 from card_player.deck import Deck
 from card_player.player import GoFishPlayer
+from card_player.policy import GoFishRandomPolicy
 
 
 HAND_SIZE = 7
@@ -52,8 +53,11 @@ def play_turn(deck, player, opponent):
 
     asks = 0
     while keep_asking:
-        rand_idx = randint(0, len(player.hand)-1)
-        ask_rank = player.hand[rand_idx].rank
+        # use policy to choose action
+        ask_rank = GoFishRandomPolicy(player.hand).rank_to_seek()
+
+        #rand_idx = randint(0, len(player.hand)-1)
+        #ask_rank = player.hand[rand_idx].rank
         print(f"{player.name} is asking for a {ask_rank}")
         keep_asking = player.ask(opponent, ask_rank)
         asks += 1
