@@ -1,15 +1,13 @@
-# Project Title
-
-Simple overview of use/purpose.
-
-## Description
-
-An in-depth paragraph about your project and overview of use.
-
-## Getting Started
+# Card Player 
 
 This project implements some card games for the purpose of setting up a reinforcement learning 
 environment within which agents may be trained to play these games.
+
+## Description
+
+This project is under development.
+
+## Getting Started
 
 ### Dependencies
 
