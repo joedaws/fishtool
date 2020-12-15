@@ -23,6 +23,7 @@ This project is under development.
 #### Go fish
 * Currently, only go fish is implemented. 
 * To run a game of GoFish between two players both using random polocies use:
+
 ```
 python -m card_player.game.run
 ```
