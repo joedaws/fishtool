@@ -1,1 +1,1 @@
-from card_player.policy.policy import GoFishRandomPolicy
+from card_player.policy.random_policy import GoFishRandomPolicy
