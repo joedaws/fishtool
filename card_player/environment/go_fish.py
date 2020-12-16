@@ -1,59 +1,7 @@
 import gym
 from gym import spaces
 from gym.utils import seeding
-from card_player.deck import ALLOWED_RANKS
-from card_player.game import ExchangeEvent
 
-
-class ObservedRanks:
-    """Class for storing observations about ranks possed by other players"""
-    def __init__(self, opponents):
-        self.num_opponents = len(opponents)
-        self.observed_ranks = {i: {rank: 0 for rank in ALLOWED_RANKS} for i in opponents}
-
-    def update_observed_ranks_book_event(self, event):
-        if isinstance(event, ExchangeEvent):
-            self.update_observed_ranks_exchange_event(event)
-        else:
-            raise ValueError(f'Cannot update observed ranks for event type {type(event)}')
-
-    def update_observed_ranks_exchange_event(self, exchange_event):
-        """Update the observed ranks after a witnessed event.
-
-        Args:
-            exchange_event (EchangeEvent): A dataclass including, player_giving_index, 
-                player_receiving_index, rank, number.
-        """
-        # decrease known ammount of rank of the giving player
-        number = exchange_event.number
-        giving_player = self.observed_ranks[exchange_event.player_giving]
-        giving_player[exchange_event.rank] = min(number-giving_player[exchange_event.rank], 0)
-
-        # increase the known amount of rank of the receiving player
-        receiving_player = self.observed_ranks[exchange_event.player_receiving]
-        receiving_player[exchange_event.rank] += number
-
-
-class ObservationSpace:
-    """Go Fish observation space"""
-    NUM_RANKS = 13
-    def __init__(self, num_opponents, initial_hand_size):
-        self.num_opponents = num_opponents
-        self.opponents = tuple(i for i in range(num_opponents))
-        self.opponents_hand_len = {i: initial_hand_size for i in self.opponents}
-        self.ranks = tuple(i for i in range(self.NUM_RANKS))
-        self.opponent_rank = {i:{} for i in self.opponents}
-
-    @property
-    def valid_opponents(self):
-        """Returns tuple of indices of opponents with cards."""
-        return tuple(i for i in self.opponents if self.opponents_hand_len[i] > 0)
-
-    @property
-    def known_ranks(self):
-        """Returns dictionary of ranks """
-        known_ranks = 0
-        return known_ranks
 
 class GoFIshEnv(gym.Env):
     """Go Fish environment implementation.
