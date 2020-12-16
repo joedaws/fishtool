@@ -1,5 +1,10 @@
 from dataclasses import dataclass
 
+@dataclass
+class DrawEvent:
+    """Stored data from a draw."""
+    player: int
+    number: int = 1
 
 @dataclass
 class ExchangeEvent:
