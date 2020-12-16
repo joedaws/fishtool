@@ -1,1 +1,1 @@
-from aicard.space.go_fish improt ObservationSpace
+from aicard.space.go_fish import ObservationSpace
