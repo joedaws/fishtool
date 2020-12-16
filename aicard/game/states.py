@@ -1,11 +1,11 @@
 from aicard.player import GoFishPlayer
 from aicard.deck import Deck
-from aicard.game.event import ExchangeEvent, BookEvent, DrawEvent
+from aicard.game.events import ExchangeEvent, BookEvent, DrawEvent, AskEvent
 from aicard.space import ObservationSpace
 
 
 class GoFishState:
-    """A class for storing data which represents the state of the go fish game."""
+    """A class representing the state of the go fish game."""
     def __init__(self, num_players=4):
         player_names = ['player'+str(i) for i in range(num_players)]
         self.players = {i: GoFishPlayer(name) for i, name in enumerate(player_names)}
