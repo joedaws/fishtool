@@ -1,8 +1,8 @@
 import sys
 from random import randint
-from card_player.deck import Deck
-from card_player.player import GoFishPlayer
-from card_player.policy import GoFishRandomPolicy
+from aicard.deck import Deck
+from aicard.player import GoFishPlayer
+from aicard.policy import GoFishRandomPolicy
 
 
 HAND_SIZE = 7

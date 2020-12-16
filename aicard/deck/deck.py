@@ -1,6 +1,6 @@
 import random
-from card_player.deck import ALLOWED_SUITS, ALLOWED_RANKS
-from card_player.deck import Card, Joker
+from aicard.deck import ALLOWED_SUITS, ALLOWED_RANKS
+from aicard.deck import Card, Joker
 
 class Deck():
     """standard 52 or 54 card deck

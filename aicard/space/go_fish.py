@@ -1,6 +1,6 @@
-from card_player.deck import ALLOWED_RANKS
-from card_player.game import ExchangeEvent, BookEvent
-from card_player.game import GO_FISH_INITIAL_HAND_SIZE_MAP as INITIAL_HAND_SIZE_MAP
+from aicard.deck import ALLOWED_RANKS
+from aicard.game import ExchangeEvent, BookEvent
+from aicard.game import GO_FISH_INITIAL_HAND_SIZE_MAP as INITIAL_HAND_SIZE_MAP
 
 
 class ObservedRanks:

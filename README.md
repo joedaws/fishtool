@@ -25,7 +25,7 @@ This project is under development.
 * To run a game of GoFish between two players both using random polocies use:
 
 ```
-python -m card_player.game.run
+python -m aicard.game.run
 ```
 
 ## Version History

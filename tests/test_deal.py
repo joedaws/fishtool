@@ -1,5 +1,5 @@
-from card_player.deck.deck import Deck
-from card_player.player.player import GoFishPlayer
+from aicard.deck.deck import Deck
+from aicard.player.player import GoFishPlayer
 
 # make some players
 p1 = GoFishPlayer('player1')

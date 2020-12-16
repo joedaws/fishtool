@@ -1,7 +1,7 @@
-from card_player.player import GoFishPlayer
-from card_player.deck import Deck
-from card_player.game.event import ExchangeEvent, BookEvent, DrawEvent
-from card_player.space import ObservationSpace
+from aicard.player import GoFishPlayer
+from aicard.deck import Deck
+from aicard.game.event import ExchangeEvent, BookEvent, DrawEvent
+from aicard.space import ObservationSpace
 
 
 class GoFishState:

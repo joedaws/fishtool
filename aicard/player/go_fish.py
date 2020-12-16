@@ -1,7 +1,7 @@
-from card_player.deck import Deck
-from card_player.deck import Card
-from card_player.deck import ALLOWED_RANKS
-from card_player.player import Player
+from aicard.deck import Deck
+from aicard.deck import Card
+from aicard.deck import ALLOWED_RANKS
+from aicard.player import Player
 
 
 class GoFishPlayer(Player):

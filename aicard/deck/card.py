@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from card_player.deck import ALLOWED_RANKS, ALLOWED_SUITS
+from aicard.deck import ALLOWED_RANKS, ALLOWED_SUITS
 
 
 class AbstractCard(ABC):
