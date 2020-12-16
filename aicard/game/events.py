@@ -7,9 +7,15 @@ class DrawEvent:
     number: int = 1
 
 @dataclass
+class AskEvent:
+    """Stores data of an ask."""
+    player: int
+    rank: str
+
+@dataclass
 class ExchangeEvent:
     """Stores data for an exchange.
-    
+
     Attributes:
         player_giving (int): Giving player index.
         player_receiving (int): Receiving player index.
