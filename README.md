@@ -1,4 +1,4 @@
-# Card Player 
+# AIcard 
 
 This project implements some card games for the purpose of setting up a reinforcement learning 
 environment within which agents may be trained to play these games.
