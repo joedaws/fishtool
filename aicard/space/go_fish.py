@@ -1,5 +1,5 @@
 from aicard.deck import ALLOWED_RANKS
-from aicard.game import ExchangeEvent, BookEvent
+from aicard.game.events import ExchangeEvent, BookEvent
 from aicard.game import GO_FISH_INITIAL_HAND_SIZE_MAP as INITIAL_HAND_SIZE_MAP
 
 
@@ -7,7 +7,7 @@ class ObservedRanks:
     """Class for storing observations about ranks possed by other players."""
     def __init__(self, opponents):
         self.num_opponents = len(opponents)
-        self.observed_ranks = {i: {rank: 0 for rank in ALLOWED_RANKS} for i in opponents}
+        self.ranks = {i: {rank: 0 for rank in ALLOWED_RANKS} for i in opponents}
 
     def update(self, event):
         """After an event update the observed ranks.
@@ -19,6 +19,8 @@ class ObservedRanks:
             self.update_exchange_event(event)
         elif isinstance(event, BookEvent):
             self.update_book_event(event)
+        elif isinstance(event, AskEvent):
+            self.update_ask_event(event)
         else:
             raise ValueError(f'Cannot update observed ranks for event type {type(event)}')
 
@@ -31,11 +33,11 @@ class ObservedRanks:
         """
         # decrease known ammount of rank of the giving player
         number = exchange_event.number
-        giving_player = self.observed_ranks[exchange_event.player_giving]
+        giving_player = self.ranks[exchange_event.player_giving]
         giving_player[exchange_event.rank] = min(number-giving_player[exchange_event.rank], 0)
 
         # increase the known amount of rank of the receiving player
-        receiving_player = self.observed_ranks[exchange_event.player_receiving]
+        receiving_player = self.ranks[exchange_event.player_receiving]
         receiving_player[exchange_event.rank] += number
 
     def update_book_event(self, book_event):
@@ -45,12 +47,21 @@ class ObservedRanks:
         # TODO: fill in this method.
         pass
 
+    def update_ask_event(self, ask_event):
+        """Update the observed ranks after an ask event."""
+        self.ranks[ask_event.player][ask_event.rank] += 1
+
 class ObservedHandLen:
     """Class for storing observations about the number fo cards possed by other players."""
     def __init__(self, opponents):
         self.num_opponents = len(opponents)
+        self.opponents = opponents
         self.hand_len = {i: INITIAL_HAND_SIZE_MAP[self.num_opponents]
                          for i in self.opponents}
+
+    def valid_opponents(self):
+        """Return list of indices corresponding to opponents with at least one card."""
+        return [i for i in self.opponents if self.hand_len[i] > 0]
 
     def update(self, event):
         """After an event update the number of cards in a hand.
@@ -97,32 +108,19 @@ class ObservationSpace:
         self.opponents = opponents
         self.num_opponents = len(opponents)
         self.observed_ranks = ObservedRanks(self.opponents)
-        self._opponents_hand_len = None
+        self.observed_hand_len = ObservedHandLen(self.opponents)
 
-    @property
-    def opponents_hand_len(self):
-        """Returns a dictionary whose keys are opponent indicies and
-        keys are number of cards the corresponding opponents hand."""
-        if self._opponents_hand_len is None:
-            # initialize to default hand size
-            self._opponents_hand_len = {i: INITIAL_HAND_SIZE_MAP[self.num_opponents]
-                                        for i in self.opponents}
-
-        return self._opponents_hand_len
-
-    @property
-    def valid_opponents(self):
-        """Returns tuple of indices of opponents with cards."""
-        return tuple(i for i in self.opponents if self.opponents_hand_len[i] > 0)
+    def get_observation(self):
+        """Return a tuple representing the observation by a player."""
+        ranks = self.observed_ranks.ranks
+        lens = self.observed_hand_len.hand_len
+        return (ranks, lens)
 
     def update(self, event):
         """Update the observation space based on observed event."""
         self.observed_ranks.update(event)
         #update opponents hand lengths
-        self.update_opponents_hand_len()
-
-    def update_opponents_hand_len(self, event):
-
+        self.observed_hand_len.update(event)
 
 class ActionSpace:
     """Go Fish action space"""
