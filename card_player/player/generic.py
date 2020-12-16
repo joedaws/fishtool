@@ -7,6 +7,7 @@ class Player:
     def __init__(self, name):
         self.name = name
         self.card_type = None
+        self.index = None
         self._hand = None
         self._deck = None
 
