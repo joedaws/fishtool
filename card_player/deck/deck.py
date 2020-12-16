@@ -38,12 +38,16 @@ class Deck():
 
         return s.rstrip()
 
+    def __len__(self):
+        """Number of cards currently in the deck."""
+        return len(self.cards)
+
     def shuffle(self):
         """randomize the order of the deck"""
         _shuffle(self.cards)
 
     def draw(self, n=1):
-        """draws n cards from the cards attribute
+        """Draws n cards from the cards attribute.
 
         Note:
             This method removes n cards from the deck
