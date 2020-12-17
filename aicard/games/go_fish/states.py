@@ -1,13 +1,13 @@
-from aicard.player import GoFishPlayer
-from aicard.deck import Deck
-from aicard.game.events import ExchangeEvent, BookEvent, DrawEvent, AskEvent
-from aicard.space import ObservationSpace
+from aicard.players.go_fish import GoFishPlayer
+from aicard.games.core.deck import Deck
+from aicard.games.core.events import ExchangeEvent, BookEvent, DrawEvent
+from aicard.brains.spaces.go_fish import ObservationSpace
 
 
 class GoFishState:
     """A class representing the state of the go fish game."""
     def __init__(self, num_players=4):
-        player_names = ['player'+str(i) for i in range(num_players)]
+        player_names = ['players'+str(i) for i in range(num_players)]
         self.players = {i: GoFishPlayer(name) for i, name in enumerate(player_names)}
         self._set_player_indices()
         self.opponents_map = self._setup_opponents_map()
@@ -25,7 +25,7 @@ class GoFishState:
                 of the players which you want to see.
         """
         if player_indices is None:
-            # return all player hands
+            # return all players hands
             player_indices = list(self.players.keys())
 
         return {i: player.hand for i, player in self.players.items() if i in player_indices}
@@ -45,6 +45,6 @@ class GoFishState:
             player.index = index 
 
     def _setup_opponents_map(self):
-        """Create a dictionary describing the opponents of each player."""
+        """Create a dictionary describing the opponents of each players."""
         indices = list(self.players.keys())
         return {i: [j for j in indices if j != i] for i in indices}

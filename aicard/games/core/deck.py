@@ -1,8 +1,9 @@
 import random
-from aicard.deck import ALLOWED_SUITS, ALLOWED_RANKS
-from aicard.deck import Card, Joker
+from aicard.games.core import ALLOWED_SUITS, ALLOWED_RANKS
+from aicard.games.core.card import Card, Joker
 
-class Deck():
+
+class Deck:
     """standard 52 or 54 card deck
     TODO should consider making some of the these mehtods into 
     an abstract base class. Then a deck inherits from a abstract 

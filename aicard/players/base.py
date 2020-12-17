@@ -1,9 +1,10 @@
 
 
 class Player:
-    """A generic player class"""
+    """A generic players class"""
     GAME = 'GENERIC'
     MAXIMUM_HAND_SIZE = 52
+
     def __init__(self, name):
         self.name = name
         self.card_type = None
@@ -13,7 +14,7 @@ class Player:
 
     @property
     def hand(self):
-        """The player's hand, i.e., a list of card objects"""
+        """The players's hand, i.e., a list of card objects"""
         if self._hand is None:
             print(f'{self.GAME} {self.name} is initializing hand.')
             self._hand = []
@@ -26,7 +27,7 @@ class Player:
 
     @hand.setter
     def hand(self, new_hand):
-        """setter method for player's hand of cards"""
+        """setter method for players's hand of cards"""
         self._hand = new_hand
 
     def draw(self, deck, n=1):
@@ -40,7 +41,7 @@ class Player:
         self.receive(new_cards)
 
     def receive(self, new_card):
-        """add card(s) to player's hand"""
+        """add card(s) to players's hand"""
         if self.card_type is None:
             self.card_type = type(new_card)
 

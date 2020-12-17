@@ -1,7 +1,9 @@
 # AIcard 
 
-This project implements some card games for the purpose of setting up a reinforcement learning 
-environment within which agents may be trained to play these games.
+__Status__: pre-alpha
+
+aicard (Ai for card games) is a project that implements some card games for the purpose of setting up 
+reinforcement learning environments within which agents may be trained to play these games.
 
 ## Description
 

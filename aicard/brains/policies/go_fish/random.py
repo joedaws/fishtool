@@ -2,7 +2,7 @@ import numpy as np
 
 
 class GoFishRandomPolicy:
-    """Random policy for GoFish"""
+    """Random policies for GoFish"""
     def __init__(self, observation, valid_actions):
         self.observation = observation
 

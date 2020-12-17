@@ -1,12 +1,11 @@
-from aicard.deck import Deck
-from aicard.deck import Card
-from aicard.deck import ALLOWED_RANKS
-from aicard.player import Player
+from aicard.players.base import Player
+from aicard.games.core import ALLOWED_RANKS
 
 
 class GoFishPlayer(Player):
-    """A go Fish player class."""
+    """A go Fish players class."""
     GAME = 'GoFish'
+
     def __init__(self, name):
         super().__init__(name)
         self.books = []
@@ -15,14 +14,14 @@ class GoFishPlayer(Player):
     def state(self):
         """A dictionary for describing contents of hand.
 
-        The keys are the allowed ranks that the player current
+        The keys are the allowed ranks that the players current
         has in their hand and the values are lists
         of suits of the cards of that rank.
         """
         if self.hand is None:
             raise ValueError(f'Cannot compute state for uninitialized hand.')
 
-        state = {rank:[] for rank in ALLOWED_RANKS}
+        state = {rank: [] for rank in ALLOWED_RANKS}
 
         for card in self.hand:
             state[card.rank].append(card.suit)
@@ -42,7 +41,7 @@ class GoFishPlayer(Player):
         """check hand for books
 
         If a book is found then those cards are removed from
-        the player's hand and put into the books attribute.
+        the players's hand and put into the books attribute.
         """
         for rank, suits in self.state.items():
             if len(suits) == 4:
@@ -52,7 +51,7 @@ class GoFishPlayer(Player):
                 self.hand = [c for c in self.hand if c.rank != rank]
 
     def ask(self, another_player, rank):
-        """ask another player if they have a card of a particular rank"""
+        """ask another players if they have a card of a particular rank"""
         cards = another_player.tell(rank)
 
         obtained_card = cards
@@ -64,8 +63,8 @@ class GoFishPlayer(Player):
         return obtained_card
 
     def tell(self, rank):
-        """give card to another player if they have a card of requested rank"""
-        # get indicies of instances of card
+        """give card to another players if they have a card of requested rank"""
+        # get indices of instances of card
         idx = [i for i, c in enumerate(self.hand) if rank in str(c)]
 
         cards_to_give = [self.hand[i] for i in idx]

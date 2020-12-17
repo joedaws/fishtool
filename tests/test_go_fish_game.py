@@ -1,4 +1,5 @@
-from aicard.game.go_fish import GoFishGame
+from aicard.games.go_fish.game import GoFishGame
+
 
 def test_instantiation():
     num_players = 4

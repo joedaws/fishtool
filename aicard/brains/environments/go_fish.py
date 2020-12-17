@@ -3,21 +3,22 @@ from gym import spaces
 from gym.utils import seeding
 
 
-class GoFIshEnv(gym.Env):
-    """Go Fish environment implementation.
+class GoFishEnv(gym.Env):
+    """Go Fish environments implementation.
 
     Action Space:
-        Each player may ask for one of the ranks from one of the players.
-        Therefore, the action space is a tuple with the number of players
-        and a discrete space of 13 (the total number of ranks).
+        Each players may ask for one of the ranks from one of the players.
+        Therefore, the action spaces is a tuple with the number of players
+        and a discrete spaces of 13 (the total number of ranks).
 
     Observation Space:
-        Each player
+        Each players
 
     Args:
         num_oppoents (int): number of OTHER players that will play the game.
     """
     NUM_RANKS = 13  # total number of ranks that a card may have.
+
     def __init__(self, num_opponents):
         self.action_space = spaces.Tuple((
             spaces.Discrete(num_opponents), 

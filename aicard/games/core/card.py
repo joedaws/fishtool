@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
-from aicard.deck import ALLOWED_RANKS, ALLOWED_SUITS
+from aicard.games.core import ALLOWED_RANKS, ALLOWED_SUITS
 
 
 class AbstractCard(ABC):
     """Might be used in the future"""
+
     @abstractmethod
     def __init__(self, *args, **kwargs):
         pass
@@ -11,12 +12,12 @@ class AbstractCard(ABC):
 
 class Card:
     """standard playing card from a 52 or 54 card deck"""
-    def __init__(self,suit,rank):
+    def __init__(self, suit, rank):
         if suit in ALLOWED_SUITS:
             self._suit = suit
         else:
             raise ValueError(f'{suit} is not a valid suit.')
-        
+
         if rank in ALLOWED_RANKS:
             self._rank = rank
         else:
@@ -33,6 +34,7 @@ class Card:
     @property
     def rank(self):
         return self._rank
+
 
 class Joker:
     """Joker card"""

@@ -6,3 +6,6 @@ __pycache__/
 
 # ignore vim related temp files
 *.swp
+
+# PyCharm files
+.idea/

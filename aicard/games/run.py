@@ -1,8 +1,6 @@
-import sys
-from random import randint
-from aicard.deck import Deck
-from aicard.player import GoFishPlayer
-from aicard.policy import GoFishRandomPolicy
+from aicard.games.core.deck import Deck
+from aicard.players.go_fish import GoFishPlayer
+from aicard.brains.policies import GoFishRandomPolicy
 
 
 HAND_SIZE = 7
@@ -32,7 +30,7 @@ def deal(deck, p1, p2):
         p1.draw(deck)
         p2.draw(deck)
 
-    # show the state of each player's hand
+    # show the state of each players's hand
     print(show_state(p1))
     print(show_state(p2))
 
@@ -45,7 +43,7 @@ def play_turn(deck, player, opponent):
 
     keep_asking = len(player.hand) > 0
     """
-    if len(player.hand) > 0:
+    if len(players.hand) > 0:
         keep_asking = True
     else:
         keep_asking = False
@@ -53,11 +51,11 @@ def play_turn(deck, player, opponent):
 
     asks = 0
     while keep_asking:
-        # use policy to choose action
+        # use policies to choose action
         ask_rank = GoFishRandomPolicy(player.hand).rank_to_seek()
 
-        #rand_idx = randint(0, len(player.hand)-1)
-        #ask_rank = player.hand[rand_idx].rank
+        #rand_idx = randint(0, len(players.hand)-1)
+        #ask_rank = players.hand[rand_idx].rank
         print(f"{player.name} is asking for a {ask_rank}")
         keep_asking = player.ask(opponent, ask_rank)
         asks += 1

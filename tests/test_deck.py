@@ -1,6 +1,6 @@
 import pytest
-from aicard.deck.deck import Deck
-from aicard.player.go_fish import GoFishPlayer
+from aicard.games.core.deck import Deck
+from aicard.players.go_fish import GoFishPlayer
 
 HAND_SIZE = 20 
 
