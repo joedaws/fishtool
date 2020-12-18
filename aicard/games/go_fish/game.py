@@ -173,3 +173,31 @@ class GoFishGame:
             book_totals = {len(player.books): player for player in self.state.players}
             winner = book_totals[max(book_totals)].name
             print(f"\nAll books are acquired. {winner} has won!")
+
+    @staticmethod
+    def get_player_state_str(player):
+        """returns string representation of a players state"""
+        state_str = f"{player.name} state:\n"
+        for rank in player.state:
+            if player.state[rank]:
+                state_str += rank + ": "
+            for suit in player.state[rank]:
+                state_str += suit + " "
+            if player.state[rank]:
+                state_str += "\n"
+
+        return state_str
+
+    def get_state_str(self):
+        """Returns string representation of the state."""
+        state_str = f"The state of the go fish game:\n"
+        for player in self.state.players:
+            state_str += self.get_player_state_str(player)
+
+        return state_str
+
+    def __str__(self):
+        """Printable version of state of Game."""
+        state_str = self.get_state_str()
+        return state_str
+
