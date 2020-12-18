@@ -21,7 +21,7 @@ class GoFishGame:
         self.num_players = num_players
         self.state = GoFishState(self.num_players)
         self.turn_number = 1
-        # self.policies = {player: GoFishRandomPolicy() for player in self.state.players}
+        self.policies = {player: GoFishRandomPolicy for player in self.state.players}
         self.over = False
 
     def play(self):
@@ -75,7 +75,8 @@ class GoFishGame:
             actions = Actions(observations=observations, hand=player.hand)
 
             # use policies to choose action
-            policy = GoFishRandomPolicy(actions=actions)
+            # policy = GoFishRandomPolicy(actions=actions)
+            policy = self.policies[player](actions=actions)
             opponent, ask_rank = policy.sample()
 
             # generate ask event
