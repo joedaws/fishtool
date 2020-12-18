@@ -18,7 +18,7 @@ class GoFishGame:
     def __init__(self, num_players):
         self.num_players = num_players
         self.state = GoFishState(self.num_players)
-        self.turn = 1
+        self.turn_number = 1
         # self.policies = {player: GoFishRandomPolicy() for player in self.state.players}
 
     def deal(self):
@@ -37,9 +37,9 @@ class GoFishGame:
         print(f"\nPHASE: End dealing phase.\n")
 
     def turn(self):
-        print(f'Beginning Turn {self.turn}.\n')
+        print(f'\nBeginning Turn {self.turn_number}.')
         for player in self.state.players:
-            print(f"Player {player.index} of {self.num_players} is beginning their turn.\n")
+            print(f"\n{player.name} is beginning their turn.\n")
             self.player_turn(player)
 
     def player_turn(self, player: GoFishPlayer):
@@ -66,8 +66,11 @@ class GoFishGame:
 
             # use policies to choose action
             policy = GoFishRandomPolicy(actions=actions)
-            ask_index, ask_rank = policy.sample()
-            opponent = self.state.opponents_map[player][ask_index]
+            opponent, ask_rank = policy.sample()
+
+            # generate ask event
+            ask = self.event_ask(ask_rank, player, opponent)
+            self.state.update(ask)
 
             exchange, book = player.ask(opponent, ask_rank)
             self.state.update(exchange)
@@ -124,10 +127,10 @@ class GoFishGame:
         return event
 
     @staticmethod
-    def event_ask(ask_rank: str, player: GoFishPlayer, opponent: GoFishPlayer):
+    def event_ask(rank: str, player: GoFishPlayer, opponent: GoFishPlayer):
         """Generate an AskEvent based on the player."""
-        print(f"{player.name} is asking {opponent.name} for a {ask_rank}.")
-        event = AskEvent(player=player, opponent=opoonent, ask_rank=ask_rank)
+        print(f"{player.name} is asking {opponent.name} for a {rank}.")
+        event = AskEvent(player=player, opponent=opponent, rank=rank)
         return event
 
     @staticmethod
