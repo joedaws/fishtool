@@ -50,3 +50,9 @@ class BookEvent:
     player: Player
     rank: str
     number: int = 4
+
+
+@dataclass
+class RemovePlayerEvent:
+    """Event for when a player is removed from the game."""
+    player_to_remove: Player
