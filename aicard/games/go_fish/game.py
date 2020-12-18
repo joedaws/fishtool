@@ -75,7 +75,6 @@ class GoFishGame:
             actions = Actions(observations=observations, hand=player.hand)
 
             # use policies to choose action
-            # policy = GoFishRandomPolicy(actions=actions)
             policy = self.policies[player](actions=actions)
             opponent, ask_rank = policy.sample()
 
