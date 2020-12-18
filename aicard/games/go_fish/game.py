@@ -143,3 +143,7 @@ class GoFishGame:
             event = FailEvent(player=player)
 
         return event
+
+    def reset(self):
+        """reset to beginning of game."""
+        self.__init__(self.num_players)
