@@ -15,11 +15,20 @@ class GoFishGame:
         a map which maps a play index to a list of indices of that players's
         opponents.
     """
+    TOTAL_BOOKS = 13 # total number of books, this number is used to determine termination conditions.
+
     def __init__(self, num_players):
         self.num_players = num_players
         self.state = GoFishState(self.num_players)
         self.turn_number = 1
         # self.policies = {player: GoFishRandomPolicy() for player in self.state.players}
+        self.over = False
+
+    def play(self):
+        """Play a game of Go Fish."""
+        self.deal()
+        while not self.over:
+            self.turn()
 
     def deal(self):
         """Deal cards to players."""
@@ -41,6 +50,7 @@ class GoFishGame:
         for player in self.state.players:
             print(f"\n{player.name} is beginning their turn.\n")
             self.player_turn(player)
+            self.check_game_over()
 
     def player_turn(self, player: GoFishPlayer):
         """Player asks opponent for a card and goes fish if no exchange."""
@@ -150,3 +160,16 @@ class GoFishGame:
     def reset(self):
         """reset to beginning of game."""
         self.__init__(self.num_players)
+
+    def check_game_over(self):
+        """See if the game is over."""
+        total_books = 0
+        for player in self.state.players:
+            total_books += len(player.books)
+
+        self.over = total_books == self.TOTAL_BOOKS
+
+        if self.over:
+            book_totals = {len(player.books): player for player in self.state.players}
+            winner = book_totals[max(book_totals)].name
+            print(f"\nAll books are acquired. {winner} has won!")
