@@ -60,6 +60,12 @@ class ObservedOpponentHandLen:
         self.opponent = opponent
         self.hand_len = 0
 
+    """
+    @property
+    def hand_len(self):
+        return len(self.opponent.hand)
+    """
+
     @property
     def is_valid(self):
         """Boolean for is hand_len is non-zero."""
@@ -73,10 +79,10 @@ class ObservedOpponentHandLen:
         """
         if isinstance(event, ExchangeEvent):
             self.update_exchange_event(event)
-        elif isinstance(event, BookEvent):
-            self.update_book_event(event)
         elif isinstance(event, DrawEvent):
             self.update_draw_event(event)
+        elif isinstance(event, BookEvent):
+            self.update_book_event(event)
         else:
             #  raise ValueError(f'Cannot update observed ranks for event type {type(event)}')
             pass
