@@ -1,19 +1,32 @@
 from dataclasses import dataclass
+from aicard.players.base import Player
+
+
+@dataclass
+class SuccessEvent:
+    """Records when a player was successful in an action."""
+    player: Player
+
+
+@dataclass
+class FailEvent:
+    """Records when a player has failed to do something."""
+    player: Player
 
 
 @dataclass
 class DrawEvent:
     """Stored data from a draw."""
-    player: int
+    player: Player
     number: int = 1
 
 
 @dataclass
 class AskEvent:
     """Stores data of an ask."""
-    player: int
+    player: Player
+    opponent: Player
     rank: str
-
 
 @dataclass
 class ExchangeEvent:
@@ -25,8 +38,8 @@ class ExchangeEvent:
         rank (str): Ranks of card(s) being exchanged.
         number (int): Number of cards with specific rank being exchanged.
     """
-    player_giving: int
-    player_receiving: int
+    player_giving: Player
+    player_receiving: Player
     rank: str
     number: int
 
@@ -34,6 +47,6 @@ class ExchangeEvent:
 @dataclass
 class BookEvent:
     """Event for when a players makes a book."""
-    player: int
+    player: Player
     rank: str
     number: int = 4

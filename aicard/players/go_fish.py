@@ -1,5 +1,6 @@
 from aicard.players.base import Player
 from aicard.games.core import ALLOWED_RANKS
+from aicard.games.core.events import ExchangeEvent, BookEvent, FailEvent, DrawEvent
 
 
 class GoFishPlayer(Player):
@@ -29,7 +30,7 @@ class GoFishPlayer(Player):
         return state
 
     def look_for_rank_match(self, rank):
-        """Find all cards in hand  matching a given rank"""
+        """Find all cards in hand matching a given rank"""
         if rank not in ALLOWED_RANKS:
             raise ValueError(f'{rank} is not a valid rank.')
 
@@ -37,30 +38,77 @@ class GoFishPlayer(Player):
 
         return rank_matched_cards
 
-    def check_for_books(self):
-        """check hand for books
+    def _check_for_books(self):
+        """Check hand for books.
 
         If a book is found then those cards are removed from
         the players's hand and put into the books attribute.
+
+        Since we check for books after each time this player obtains new
+        cards of one rank, there can only be at most one book.
         """
+        event = None
         for rank, suits in self.state.items():
             if len(suits) == 4:
                 self.books.append(rank)
 
+                # create book event
+                event = BookEvent(player=self, rank=rank)
+
                 # remove cards of rank from hand
                 self.hand = [c for c in self.hand if c.rank != rank]
 
-    def ask(self, another_player, rank):
-        """ask another players if they have a card of a particular rank"""
-        cards = another_player.tell(rank)
+                break  # book was found and there can only be one book during this check.
 
-        obtained_card = cards
+        if event is None:
+            # create fail event since no book was made
+            event = FailEvent(player=self)
+
+        return event
+
+    def ask(self, another_player, rank):
+        """ask another players if they have a card of a particular rank.
+
+        Returns two events based on what occured during the execution.
+        If the other player gives cards, then an Exchanged event is created.
+        If the other player gives no cards, then a fail event is created.
+        If this player makes a book after receiving cards, then a BookEvent is created.
+        If this player makes does not make a book after receiving cards, then a fail
+        event is created.
+
+        Returns:
+            Event based on the outcome of the ask
+            Event based on the outcome of the checking for books
+        """
+        cards = another_player.tell(rank)
 
         self.receive(cards)
 
-        self.check_for_books()
+        if cards:
+            exchange = ExchangeEvent(player_giving=self, player_receiving=another_player, rank=rank, number=len(cards))
+        else:
+            exchange = FailEvent(player=self)
 
-        return obtained_card
+        book = self._check_for_books()
+
+        return exchange, book
+
+    def draw(self, deck, n=1):
+        """Player draws card(s) from provided deck.
+
+        Args:
+            deck (Deck): A instance of a card deck.
+            n (int): Number of cards to draw from the deck.
+        """
+        new_cards = [deck.draw(1)[0] for _ in range(n)]
+
+        self.receive(new_cards)
+
+        draw = DrawEvent(player=self, number=n)
+
+        book = self._check_for_books()
+
+        return draw, book
 
     def tell(self, rank):
         """give card to another players if they have a card of requested rank"""
