@@ -17,6 +17,7 @@ def test_attributes(game):
 
 
 def test_deal(game):
+    game.reset()
     game.deal()
 
     # check player hands
@@ -31,3 +32,9 @@ def test_deal(game):
 
     # check that deck has correct amount of cards
     assert len(game.state.deck.cards) == 52 - 4*5
+
+
+def test_turn(game):
+    game.reset()
+    game.deal()
+    game.turn()
