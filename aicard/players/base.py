@@ -62,3 +62,17 @@ class Player:
 
         self.hand = [card for card in self.hand if str(card) not in
                      [str(c) for c in cards_to_remove]]
+
+    def hand_str(self):
+        """Returns single line string representation of hand"""
+        hand_str = ""
+
+        for c in self.hand:
+            hand_str += str(c) + " "
+
+        return hand_str
+
+    def __str__(self):
+        """Printable version of player"""
+        return self.hand_str()
+
