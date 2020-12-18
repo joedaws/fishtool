@@ -2,7 +2,7 @@ import pytest
 from aicard.games.core.deck import Deck
 from aicard.players.go_fish import GoFishPlayer
 
-HAND_SIZE = 20 
+HAND_SIZE = 7
 
 @pytest.fixture
 def players():
@@ -13,6 +13,7 @@ def players():
 @pytest.fixture
 def deck():
     return Deck()
+
 
 def test_deal_and_shuffle(players, deck):
     # make a deck
@@ -25,6 +26,7 @@ def test_deal_and_shuffle(players, deck):
     
     for p in players:
         assert len(p.hand) == HAND_SIZE
+
 
 def test_ask(players, deck):
     # deal some cards
