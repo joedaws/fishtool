@@ -16,6 +16,7 @@ class GoFishGame:
         opponents.
     """
     TOTAL_BOOKS = 13 # total number of books, this number is used to determine termination conditions.
+    NAME = 'Go Fish!'
 
     def __init__(self, num_players):
         self.num_players = num_players
