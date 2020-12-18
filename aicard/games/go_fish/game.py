@@ -1,10 +1,15 @@
 from aicard.games.go_fish.states import GoFishState
-from aicard.games.core.events import DrawEvent, BookEvent, AskEvent, FailEvent, SuccessEvent, ExchangeEvent
 from aicard.games.go_fish import GO_FISH_INITIAL_HAND_SIZE_MAP
 from aicard.brains.policies.go_fish.random import GoFishRandomPolicy
 from aicard.brains.spaces.go_fish.actions import Actions
-from aicard.brains.spaces.go_fish.observations import Observations
 from aicard.players.go_fish import GoFishPlayer
+from aicard.games.core.events import DrawEvent, \
+                                     BookEvent, \
+                                     AskEvent, \
+                                     FailEvent, \
+                                     SuccessEvent, \
+                                     ExchangeEvent, \
+                                     RemovePlayerEvent
 
 
 class GoFishGame:
@@ -49,9 +54,24 @@ class GoFishGame:
     def turn(self):
         print(f'\nBeginning Turn {self.turn_number}.')
         for player in self.state.players:
-            print(f"\n{player.name} is beginning their turn.\n")
-            self.player_turn(player)
+            # if a player is out they don't play their turn.
+            if not player.is_out:
+                print(f"\n{player.name} is beginning their turn.\n")
+                self.player_turn(player)
             self.check_game_over()
+
+            # no need to have the other players take their turn.
+            if self.over:
+                break
+
+        print(f'\nAfter Turn {self.turn_number} the status is. . .')
+        status_str = ""
+        for player in self.state.players:
+            status_str += f"{player.name} has {len(player.books)} books and {len(player.hand)} cards.\n"
+        status_str += f"The deck has {len(self.state.deck.cards)} remaining."
+        print(status_str)
+
+        self.turn_number += 1
 
     def player_turn(self, player: GoFishPlayer):
         """Player asks opponent for a card and goes fish if no exchange."""
@@ -71,6 +91,14 @@ class GoFishGame:
         # a players may keep asking for cards as long as they receive a card from an opponent.
         asks = 0
         while keep_asking:
+            card_check = self.event_has_cards(player)
+            # make sure player has cards before asking. Remove them if they do not.
+            if isinstance(card_check, FailEvent) and len(self.state.deck.cards) == 0:
+                print(f"{player.name} is out!")
+                remove_player = self.event_remove_player(player)
+                self.state.update(remove_player)
+                break
+
             # get available actions
             observations = self.state.observations[player]
             actions = Actions(observations=observations, hand=player.hand)
@@ -104,15 +132,16 @@ class GoFishGame:
             if isinstance(book, BookEvent):
                 print(f"{player.name} made a book with rank {book.rank}.")
 
-        # after the asking phase of the turn ends, the player draws a card.
-        draw, book = self.event_draw(player)
-        self.state.update(draw)
-        self.state.update(book)
-        if isinstance(book, BookEvent):
-            print(f"{player.name} made a book with rank {book.rank}.")
+        if not player.is_out:
+            # after the asking phase of the turn ends, the player draws a card.
+            draw, book = self.event_draw(player)
+            self.state.update(draw)
+            self.state.update(book)
+            if isinstance(book, BookEvent):
+                print(f"{player.name} made a book with rank {book.rank}.")
 
-        # print statement about end of player's turn
-        print(f"{player.name} has finished their turn.")
+            # print statement about end of player's turn
+            print(f"{player.name} has finished their turn.")
 
     def event_draw(self, player: GoFishPlayer):
         """Draw a card from the deck and generate a DrawEvent."""
@@ -156,6 +185,13 @@ class GoFishGame:
         else:
             event = FailEvent(player=player)
 
+        return event
+
+    @staticmethod
+    def event_remove_player(player: GoFishPlayer):
+        """Generate remove player event."""
+        player.is_out = True
+        event = RemovePlayerEvent(player)
         return event
 
     def reset(self):
