@@ -13,6 +13,7 @@ class Actions:
     """
 
     def __init__(self, observations: Observations, hand: list):
+        self.opponents = observations.opponents
         self.observed_hand_len = observations.observed_hand_len
         self.hand = hand
 
@@ -25,7 +26,7 @@ class Actions:
         Returns:
             list of opponent indices of opponent players that have cards.
         """
-        return [opponent for opponent in self.observed_hand_len.opponents
+        return [opponent for opponent in self.opponents
                 if self.observed_hand_len[opponent].hand_len > 0]
 
     @property
