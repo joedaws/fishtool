@@ -53,18 +53,31 @@ class ObservedOpponentRanks:
         if self.opponent == ask_event.player:
             self.ranks[ask_event.rank] += 1
 
+class ExactOpponentHandLen:
+    """Class for storing the exact hand lengths of opponents."""
+    def __init__(self, opponent):
+        self.opponent = opponent
+
+    @property
+    def hand_len(self):
+        """Returns true hand length of opponent."""
+        return len(self.opponent.hand)
+
+    @property
+    def is_valid(self):
+        """Boolean for is hand_len is non-zero."""
+        return self.hand_len > 0
+
+    def update(self, event):
+        """We can ignore all events in this case."""
+        pass
+
 
 class ObservedOpponentHandLen:
     """Class for storing observations about the number of cards possessed by an opponent."""
     def __init__(self, opponent):
         self.opponent = opponent
         self.hand_len = 0
-
-    """
-    @property
-    def hand_len(self):
-        return len(self.opponent.hand)
-    """
 
     @property
     def is_valid(self):
@@ -122,7 +135,7 @@ class Observations:
         self.opponents = opponents
         self.num_opponents = len(opponents)
         self.observed_ranks = {opponent: ObservedOpponentRanks(opponent) for opponent in self.opponents}
-        self.observed_hand_len = {opponent: ObservedOpponentHandLen(opponent) for opponent in self.opponents}
+        self.observed_hand_len = {opponent: ExactOpponentHandLen(opponent) for opponent in self.opponents}
 
     def get_observation(self, opponent):
         """Return a tuple representing the observation by a players."""
