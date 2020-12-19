@@ -7,7 +7,7 @@ class GoFishState:
     """A class representing the state of the go fish game."""
 
     def __init__(self, num_players=4):
-        player_names = ['player_' + str(i) for i in range(num_players)]
+        player_names = ['player ' + str(i) for i in range(num_players)]
         self.players = {GoFishPlayer(name): i for i, name in enumerate(player_names)}
         self._set_player_indices()
         self.opponents_map = self._setup_opponents_map()
