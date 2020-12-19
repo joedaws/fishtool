@@ -88,6 +88,11 @@ class GoFishGame:
             if isinstance(book, BookEvent):
                 print(f"{player.name} made a book with rank {book.rank}.")
 
+        if isinstance(card_check, FailEvent) and len(self.state.deck.cards) == 0:
+            print(f"{player.name} is out!")
+            remove_player = self.event_remove_player(player)
+            self.state.update(remove_player)
+
         # a players may keep asking for cards as long as they receive a card from an opponent.
         asks = 0
         while keep_asking:
