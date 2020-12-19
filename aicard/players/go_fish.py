@@ -10,6 +10,7 @@ class GoFishPlayer(Player):
     def __init__(self, name):
         super().__init__(name)
         self.books = []
+        self.is_out = False
 
     @property
     def state(self):
