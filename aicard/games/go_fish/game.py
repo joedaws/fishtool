@@ -100,8 +100,8 @@ class GoFishGame:
         # a players may keep asking for cards as long as they receive a card from an opponent.
         asks = 0
         while keep_asking:
+            # ensure player has cards before asking. Remove them if they do not.
             card_check = self.event_has_cards(player)
-            # make sure player has cards before asking. Remove them if they do not.
             if isinstance(card_check, FailEvent) and len(self.state.deck.cards) == 0:
                 print(f"{player.name} is out!")
                 remove_player = self.event_remove_player(player)
@@ -112,7 +112,7 @@ class GoFishGame:
             observations = self.state.observations[player]
             actions = Actions(observations=observations, hand=player.hand)
 
-            # use policies to choose action
+            # use policies to choose action by instantiating a policy
             policy = self.policies[player](actions=actions)
             opponent, ask_rank = policy.sample()
 
@@ -190,7 +190,10 @@ class GoFishGame:
         opponent = ask_event.opponent
         cards = player.ask(opponent, ask_rank)
         if cards:
-            event = ExchangeEvent(player_receiving=player, player_giving=opponent, rank=ask_rank, number=len(cards))
+            event = ExchangeEvent(player_receiving=player,
+                                  player_giving=opponent,
+                                  rank=ask_rank,
+                                  number=len(cards))
         else:
             event = FailEvent(player=player)
 
@@ -216,7 +219,8 @@ class GoFishGame:
         self.over = total_books == self.TOTAL_BOOKS
 
         if self.over:
-            book_totals = {len(player.books): player for player in self.state.players}
+            book_totals = {len(player.books): player
+                           for player in self.state.players}
             winner = book_totals[max(book_totals)].name
             print(f"\nAll books are acquired. {winner} has won!")
 
