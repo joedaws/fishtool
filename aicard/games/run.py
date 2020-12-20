@@ -1,15 +1,33 @@
-from importlib import import_module
-import configparser
+from importlib import import_module 
+import configparser 
 import argparse
 
 
 def create_game(config):
     """Imports and instantiates an instenace of the game specified """
+    # import game class
     game_module = config['game']['game module']
     game_class = config['game']['game class']
     cls = getattr(import_module(game_module), game_class)
-    game_args = {'num_players': 4}
-    return cls(**game_args)
+    policies = create_policies(config)
+    # import and create policy types
+    return cls(policies)
+
+def create_policies(config):
+    """Import and create policy classes for players."""
+    # get player's names
+    player_names = config['players']['names'].split(',')
+    # get policy types
+    player_policy_modules = [config[name]['policy module']
+                             for name in player_names]
+    # get policy class name
+    player_policy_classes = [config[name]['policy class']
+                             for name in player_names]
+    # import policies into list
+    policy_list = [getattr(import_module(policy_module), policy_class)
+                   for policy_module, policy_class in 
+                   zip(player_policy_modules, player_policy_classes)]
+    return policy_list 
 
 
 if __name__ == "__main__":
