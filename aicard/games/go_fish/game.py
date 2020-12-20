@@ -21,15 +21,16 @@ class GoFishGame:
         a map which maps a play index to a list of indices of that players's
         opponents.
     """
-    TOTAL_BOOKS = 13 # total number of books, this number is used to determine termination conditions.
+    # total number of books, this number is used to determine termination conditions.
+    TOTAL_BOOKS = 13     
     NAME = 'Go Fish!'
 
-    def __init__(self, num_players):
-        self.num_players = num_players
+    def __init__(self, policies):
+        self.num_players = len(policies)
         self.state = GoFishState(self.num_players)
         self.turn_number = 1
-        #self.policies = {player: GoFishRandomPolicy for player in self.state.players}
-        self.policies = {player: GoFishHumanPolicy for player in self.state.players}
+        self.policies = {player: policy
+                         for policy, player in zip(policies, self.state.players)}
 
         self.over = False
 
