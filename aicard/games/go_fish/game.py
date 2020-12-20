@@ -1,6 +1,7 @@
 from aicard.games.go_fish.states import GoFishState
 from aicard.games.go_fish import GO_FISH_INITIAL_HAND_SIZE_MAP
 from aicard.brains.policies.go_fish.random import GoFishRandomPolicy
+from aicard.brains.policies.go_fish.human import GoFishHumanPolicy
 from aicard.brains.spaces.go_fish.actions import Actions
 from aicard.players.go_fish import GoFishPlayer
 from aicard.games.core.events import DrawEvent, \
@@ -27,7 +28,9 @@ class GoFishGame:
         self.num_players = num_players
         self.state = GoFishState(self.num_players)
         self.turn_number = 1
-        self.policies = {player: GoFishRandomPolicy for player in self.state.players}
+        #self.policies = {player: GoFishRandomPolicy for player in self.state.players}
+        self.policies = {player: GoFishHumanPolicy for player in self.state.players}
+
         self.over = False
 
     def play(self):
