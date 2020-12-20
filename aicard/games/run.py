@@ -1,5 +1,5 @@
 from importlib import import_module 
-import configparser 
+import configparser
 import argparse
 
 
@@ -25,15 +25,15 @@ def create_policies(config):
                              for name in player_names]
     # import policies into list
     policy_list = [getattr(import_module(policy_module), policy_class)
-                   for policy_module, policy_class in 
+                   for policy_module, policy_class in
                    zip(player_policy_modules, player_policy_classes)]
-    return policy_list 
+    return policy_list
 
-
-if __name__ == "__main__":
+def main():
+    """Parse configs, create game, and play."""
     parser = argparse.ArgumentParser(description='Get path to the game config.')
     parser.add_argument('--game_config',
-                         help='Path to the ini file configuring the game to be played.')
+                        help='Path to the ini file configuring the game to be played.')
     # parse arguements
     args = parser.parse_args()
     config_path = args.game_config
@@ -44,8 +44,9 @@ if __name__ == "__main__":
 
     # load game
     game = create_game(config)
-    print(game.__dict__)
     print(f'Created {game.NAME}')
 
     game.play()
 
+if __name__ == "__main__":
+    main()

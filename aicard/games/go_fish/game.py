@@ -16,10 +16,13 @@ from aicard.games.core.events import DrawEvent, \
 class GoFishGame:
     """A class for executing a game of Go Fish.
 
-    Note: 
+    Note:
         The state includes players and players observations as well as
         a map which maps a play index to a list of indices of that players's
         opponents.
+
+    Args:
+        policies (list): A list of policy classes.
     """
     # total number of books, this number is used to determine termination conditions.
     TOTAL_BOOKS = 13     
@@ -29,7 +32,8 @@ class GoFishGame:
         self.num_players = len(policies)
         self.state = GoFishState(self.num_players)
         self.turn_number = 1
-        self.policies = {player: policy
+        # instantiate a policy for each player
+        self.policies = {player: policy()
                          for policy, player in zip(policies, self.state.players)}
 
         self.over = False
@@ -71,7 +75,8 @@ class GoFishGame:
         print(f'\nAfter Turn {self.turn_number} the status is. . .')
         status_str = ""
         for player in self.state.players:
-            status_str += f"{player.name} has {len(player.books)} books and {len(player.hand)} cards.\n"
+            status_str += f"{player.name} has {len(player.books)}"\
+                          f"books and {len(player.hand)} cards.\n"
         status_str += f"The deck has {len(self.state.deck.cards)} remaining."
         print(status_str)
 
@@ -112,8 +117,9 @@ class GoFishGame:
             observations = self.state.observations[player]
             actions = Actions(observations=observations, hand=player.hand)
 
-            # use policies to choose action by instantiating a policy
-            policy = self.policies[player](actions=actions)
+            # give available actions to policy and choose an action
+            policy = self.policies[player]
+            policy.actions = actions
             opponent, ask_rank = policy.sample()
 
             # generate ask event
