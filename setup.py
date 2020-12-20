@@ -22,7 +22,7 @@ test_requirements = [
 setup(
     name='aicard',
     version=__version__,
-    author="Joe Daws",
+    author="Joseph Daws",
     author_email="daws.joseph@gmail.com",
     description="Card games and agents to play them",
     python_requires=">=3.7.*",
