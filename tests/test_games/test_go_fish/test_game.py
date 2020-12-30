@@ -1,12 +1,23 @@
 import pytest
-from aicard.games.go_fish.game import GoFishGame
 from aicard.games.go_fish import GO_FISH_INITIAL_HAND_SIZE_MAP
+from aicard.games.run import create_game
+import configparser
+import os
 
 
 @pytest.fixture
 def game():
-    num_players = 4
-    game = GoFishGame(num_players)
+    """Parse configs, create game, and play."""
+    config_path = os.path.abspath('../../../aicard/games/config/')
+    go_fish_ini_path = os.path.join(config_path,'go_fish/random.ini')
+
+    # load config
+    config = configparser.ConfigParser()
+    config.read(go_fish_ini_path)
+
+    # load game
+    game = create_game(config)
+
     return game
 
 
