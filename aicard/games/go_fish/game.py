@@ -33,8 +33,8 @@ class GoFishGame:
         self.state = GoFishState(self.num_players)
         self.turn_number = 1
         # instantiate a policy for each player
-        self.policies = {player: policy()
-                         for policy, player in zip(policies, self.state.players)}
+        self.policies_map = {player: policy()
+                             for policy, player in zip(policies, self.state.players)}
 
         self.over = False
 
@@ -76,8 +76,8 @@ class GoFishGame:
         status_str = ""
         for player in self.state.players:
             status_str += f"{player.name} has {len(player.books)}"\
-                          f"books and {len(player.hand)} cards.\n"
-        status_str += f"The deck has {len(self.state.deck.cards)} remaining."
+                          f" books and {len(player.hand)} cards.\n"
+        status_str += f"The deck has {len(self.state.deck.cards)} cards remaining."
         print(status_str)
 
         self.turn_number += 1
@@ -118,7 +118,7 @@ class GoFishGame:
             actions = Actions(observations=observations, hand=player.hand)
 
             # give available actions to policy and choose an action
-            policy = self.policies[player]
+            policy = self.policies_map[player]
             policy.actions = actions
             opponent, ask_rank = policy.sample()
 
@@ -214,7 +214,17 @@ class GoFishGame:
 
     def reset(self):
         """reset to beginning of game."""
-        self.__init__(self.num_players)
+        self.state.reset()
+        self.turn_number = 1
+        # try to reset policies
+        for _, policy in self.policies_map.items():
+            try:
+                policy.reset()
+            except AttributeError:
+                print(f"{type(policy)} cannot or does not need to be reset.")
+
+        # reset game over flag
+        self.over = False
 
     def check_game_over(self):
         """See if the game is over."""

@@ -17,6 +17,12 @@ class GoFishState:
         self.observations = {player: Observations(player, self.opponents_map[player])
                              for player in self.players}
 
+    def reset(self):
+        """Reset to an initial state."""
+        self.deck = Deck()
+        self.observations = {player: Observations(player, self.opponents_map[player])
+                             for player in self.players}
+
     def hands(self):
         """Returns hands of all players.
 
