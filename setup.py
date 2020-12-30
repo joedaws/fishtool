@@ -17,6 +17,7 @@ requires = [
 
 test_requirements = [
     'pytest >= 4.6.3, <5',
+    'tensorflow >= 2.4.0, < 3',
 ]
 
 setup(
@@ -24,7 +25,7 @@ setup(
     version=__version__,
     author="Joseph Daws",
     author_email="daws.joseph@gmail.com",
-    description="Card games and agents to play them",
+    description="Card games, agents to play them, and algorithms to train the agents.",
     python_requires=">=3.7.*",
     install_requires=requires,
     url="https://github.com/joedaws/aicard.git",

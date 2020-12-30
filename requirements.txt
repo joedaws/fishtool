@@ -1,0 +1,6 @@
+pytest~=5.3.5
+aicard~=0.0.1
+tensorflow~=2.0.0
+numpy~=1.18.1
+gym~=0.17.1
+setuptools~=46.0.0
