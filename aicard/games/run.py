@@ -13,6 +13,7 @@ def create_game(config):
     # import and create policy types
     return cls(policies)
 
+
 def create_policies(config):
     """Import and create policy classes for players."""
     # get player's names
@@ -29,12 +30,13 @@ def create_policies(config):
                    zip(player_policy_modules, player_policy_classes)]
     return policy_list
 
+
 def main():
     """Parse configs, create game, and play."""
     parser = argparse.ArgumentParser(description='Get path to the game config.')
-    parser.add_argument('--game_config',
+    parser.add_argument('--game-config',
                         help='Path to the ini file configuring the game to be played.')
-    # parse arguements
+    # parse arguments
     args = parser.parse_args()
     config_path = args.game_config
 
