@@ -9,3 +9,6 @@ __pycache__/
 
 # PyCharm files
 .idea/
+
+# ignore the data directory
+data/
