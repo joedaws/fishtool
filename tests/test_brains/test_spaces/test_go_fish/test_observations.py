@@ -2,6 +2,7 @@ import pytest
 from aicard.players.go_fish import GoFishPlayer
 from aicard.brains.spaces.go_fish.observations import Observations
 from aicard.games.core.events import BookEvent, AskEvent, DrawEvent
+from aicard.games.core.deck import Deck
 
 
 @pytest.fixture
@@ -22,12 +23,10 @@ def observation(players):
 
 
 def test_update_draw_event(players, observation):
-    draw = DrawEvent(player=players[0], number=1)
-    observation.update(draw)
-
+    """test that hand length increases after a draw"""
     for opponent in observation.opponents:
+        opponent.draw(deck=Deck(), n=1)
         draw = DrawEvent(player=opponent, number=1)
         observation.update(draw)
-        assert observation.observed_hand_len[opponent].hand_len == 1
-        # reset hand lengths for future testing
-        observation.observed_hand_len[opponent].hand_len = 0
+        ranks, number = observation.get_observation(opponent)
+        assert number == 1
