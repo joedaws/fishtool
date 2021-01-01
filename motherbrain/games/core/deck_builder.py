@@ -1,6 +1,6 @@
-from aicard.games.core.deck import Deck
+from motherbrain.games.core.deck import Deck
 from importlib import import_module
-from aicard.games.core.card_builder import CardBuilder
+from motherbrain.games.core.card_builder import CardBuilder
 
 
 class DeckBuilder:

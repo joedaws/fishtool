@@ -1,5 +1,5 @@
-from aicard.games.go_fish.state import GoFishState
-from aicard.players.go_fish import GoFishPlayer
+from motherbrain.games.go_fish.state import GoFishState
+from motherbrain.players.go_fish import GoFishPlayer
 
 
 def test_state():

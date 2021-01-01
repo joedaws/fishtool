@@ -1,7 +1,7 @@
 import pytest
-from aicard.games.go_fish import INITIAL_HAND_SIZE_MAP
-from aicard.games.run import create_game
-from aicard import MOTHERBRAIN_PATH
+from motherbrain.games.go_fish import INITIAL_HAND_SIZE_MAP
+from motherbrain.games.run import create_game
+from motherbrain import MOTHERBRAIN_PATH
 import yaml
 from yaml import Loader
 import os

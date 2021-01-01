@@ -1,6 +1,6 @@
 import sys
-from aicard.brains.spaces.go_fish.actions import Actions
-from aicard.engine.io.getch import getch
+from motherbrain.brains.spaces.go_fish.actions import Actions
+from motherbrain.engine.io.getch import getch
 
 
 class GoFishHumanPolicy:

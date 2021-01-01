@@ -1,8 +1,8 @@
-from aicard.games.go_fish.state import GoFishState
-from aicard.games.go_fish import INITIAL_HAND_SIZE_MAP
-from aicard.brains.spaces.go_fish.actions import Actions
-from aicard.players.go_fish import GoFishPlayer
-from aicard.games.core.events import DrawEvent, \
+from motherbrain.games.go_fish.state import GoFishState
+from motherbrain.games.go_fish import INITIAL_HAND_SIZE_MAP
+from motherbrain.brains.spaces.go_fish.actions import Actions
+from motherbrain.players.go_fish import GoFishPlayer
+from motherbrain.games.core.events import DrawEvent, \
                                      BookEvent, \
                                      AskEvent, \
                                      FailEvent, \

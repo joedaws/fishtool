@@ -1,11 +1,11 @@
-from aicard.games.core.card_builder import CardBuilder
-from aicard.games.core.deck_builder import DeckBuilder
+from motherbrain.games.core.card_builder import CardBuilder
+from motherbrain.games.core.deck_builder import DeckBuilder
 import pytest
 
 
 @pytest.fixture
 def game_modules():
-    return ['aicard.games.go_fish']
+    return ['motherbrain.games.go_fish']
 
 
 def test_card_builder(game_modules):

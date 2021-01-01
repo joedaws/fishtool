@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from aicard.players.base import Player
+from motherbrain.players.base import Player
 
 
 @dataclass

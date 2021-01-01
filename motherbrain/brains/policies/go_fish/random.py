@@ -1,5 +1,5 @@
 import numpy as np
-from aicard.brains.spaces.go_fish.actions import Actions
+from motherbrain.brains.spaces.go_fish.actions import Actions
 
 
 class GoFishRandomPolicy:

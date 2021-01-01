@@ -1,5 +1,5 @@
 import pytest
-from aicard.games.core.deck import Deck
+from motherbrain.games.core.deck import Deck
 
 
 @pytest.fixture

@@ -1,9 +1,9 @@
 game:
-    game module: aicard.games.go_fish.game
+    game module: motherbrain.games.go_fish.game
     game class: GoFishGame
 
 players:
-    player module: aicard.players.go_fish
+    player module: motherbrain.players.go_fish
     player class: GoFishPlayer
     names:
         - player 1
@@ -12,18 +12,18 @@ players:
         - player 4
 
 player 1:
-    policy module: aicard.brains.policies.go_fish.random
+    policy module: motherbrain.brains.policies.go_fish.random
     policy class: GoFishRandomPolicy
 
 player 2:
-    policy module: aicard.brains.policies.go_fish.random
+    policy module: motherbrain.brains.policies.go_fish.random
     policy class: GoFishRandomPolicy
 
 player 3:
-    policy module: aicard.brains.policies.go_fish.random
+    policy module: motherbrain.brains.policies.go_fish.random
     policy class: GoFishRandomPolicy
 
 player 4:
-    policy module: aicard.brains.policies.go_fish.random
+    policy module: motherbrain.brains.policies.go_fish.random
     policy class: GoFishRandomPolicy
 

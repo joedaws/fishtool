@@ -1,8 +1,8 @@
 import pytest
-from aicard.players.go_fish import GoFishPlayer
-from aicard.brains.spaces.go_fish.observations import Observations
-from aicard.games.core.events import BookEvent, AskEvent, DrawEvent
-from aicard.games.core.deck import Deck
+from motherbrain.players.go_fish import GoFishPlayer
+from motherbrain.brains.spaces.go_fish.observations import Observations
+from motherbrain.games.core.events import BookEvent, AskEvent, DrawEvent
+from motherbrain.games.core.deck import Deck
 
 
 @pytest.fixture

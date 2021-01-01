@@ -5,7 +5,7 @@ import sys
 __version__ = ""
 args = sys.argv
 try:
-    with open('aicard/version.py') as f:
+    with open('motherbrain/version.py') as f:
         exec(f.read())
 except:
     __version__ = "?"
@@ -21,7 +21,7 @@ test_requirements = [
 ]
 
 setup(
-    name='aicard',
+    name='motherbrain',
     version=__version__,
     author="Joseph Daws",
     author_email="daws.joseph@gmail.com",

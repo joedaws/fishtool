@@ -1,6 +1,6 @@
-from aicard.players.base import Player
-from aicard.games.go_fish.info import CARD_FIELD_VALUES
-from aicard.games.core.events import ExchangeEvent, BookEvent, FailEvent, DrawEvent
+from motherbrain.players.base import Player
+from motherbrain.games.go_fish.info import CARD_FIELD_VALUES
+from motherbrain.games.core.events import ExchangeEvent, BookEvent, FailEvent, DrawEvent
 
 
 ALLOWED_RANKS = CARD_FIELD_VALUES['rank']

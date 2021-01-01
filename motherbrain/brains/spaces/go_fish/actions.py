@@ -1,4 +1,4 @@
-from aicard.brains.spaces.go_fish.observations import Observations
+from motherbrain.brains.spaces.go_fish.observations import Observations
 
 
 class Actions:

@@ -1,5 +1,5 @@
-from aicard.games.go_fish.info import CARD_FIELD_VALUES
-from aicard.games.core.events import ExchangeEvent, BookEvent, AskEvent, DrawEvent, FailEvent, SuccessEvent
+from motherbrain.games.go_fish.info import CARD_FIELD_VALUES
+from motherbrain.games.core.events import ExchangeEvent, BookEvent, AskEvent, DrawEvent, FailEvent, SuccessEvent
 
 
 ALLOWED_RANKS = CARD_FIELD_VALUES['rank']
@@ -19,7 +19,7 @@ class ObservedOpponentRanks:
         """After an event update the observed ranks.
 
         Args:
-            event: A dataclass from aicard.games.core.events
+            event: A dataclass from motherbrain.games.core.events
         """
         if isinstance(event, ExchangeEvent):
             self.update_exchange_event(event)
