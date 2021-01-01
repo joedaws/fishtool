@@ -1,7 +1,5 @@
-from aicard.games.go_fish.states import GoFishState
-from aicard.games.go_fish import GO_FISH_INITIAL_HAND_SIZE_MAP
-from aicard.brains.policies.go_fish.random import GoFishRandomPolicy
-from aicard.brains.policies.go_fish.human import GoFishHumanPolicy
+from aicard.games.go_fish.state import GoFishState
+from aicard.games.go_fish import INITIAL_HAND_SIZE_MAP
 from aicard.brains.spaces.go_fish.actions import Actions
 from aicard.players.go_fish import GoFishPlayer
 from aicard.games.core.events import DrawEvent, \
@@ -51,7 +49,7 @@ class GoFishGame:
         self.state.deck.shuffle()
 
         # all players take draw cards initial hand size attained.
-        for _ in range(GO_FISH_INITIAL_HAND_SIZE_MAP[self.num_players]):
+        for _ in range(INITIAL_HAND_SIZE_MAP[self.num_players]):
             for player in self.state.players:
                 draw, book = self.event_draw(player)
                 self.state.update(draw)

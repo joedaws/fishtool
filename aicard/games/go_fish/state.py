@@ -1,10 +1,12 @@
 from aicard.players.go_fish import GoFishPlayer
-from aicard.games.core.deck import Deck
+from aicard.games.core.deck_builder import DeckBuilder
 from aicard.brains.spaces.go_fish.observations import Observations
 
 
 class GoFishState:
     """A class representing the state of the go fish game."""
+
+    get_deck = DeckBuilder('aicard.games.go_fish').build_deck
 
     def __init__(self, num_players=4):
         player_names = ['player ' + str(i) for i in range(num_players)]
@@ -12,14 +14,14 @@ class GoFishState:
         self._set_player_indices()
         self.opponents_map = self._setup_opponents_map()
 
-        self.deck = Deck()
+        self.deck = self.get_deck()
 
         self.observations = {player: Observations(player, self.opponents_map[player])
                              for player in self.players}
 
     def reset(self):
         """Reset to an initial state."""
-        self.deck = Deck()
+        self.deck = self.get_deck()
         self.observations = {player: Observations(player, self.opponents_map[player])
                              for player in self.players}
 

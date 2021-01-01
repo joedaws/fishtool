@@ -1,6 +1,9 @@
 from aicard.players.base import Player
-from aicard.games.core import ALLOWED_RANKS
+from aicard.games.go_fish.info import CARD_FIELD_VALUES
 from aicard.games.core.events import ExchangeEvent, BookEvent, FailEvent, DrawEvent
+
+
+ALLOWED_RANKS = CARD_FIELD_VALUES['rank']
 
 
 class GoFishPlayer(Player):
@@ -86,7 +89,7 @@ class GoFishPlayer(Player):
         self.receive(cards)
 
         if cards:
-            exchange = ExchangeEvent(player_giving=self, player_receiving=another_player, rank=rank, number=len(cards))
+            exchange = ExchangeEvent(source=self, destination=another_player, rank=rank, number=len(cards))
         else:
             exchange = FailEvent(player=self)
 

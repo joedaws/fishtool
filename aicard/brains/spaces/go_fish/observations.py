@@ -1,5 +1,8 @@
-from aicard.games.core import ALLOWED_RANKS
+from aicard.games.go_fish.info import CARD_FIELD_VALUES
 from aicard.games.core.events import ExchangeEvent, BookEvent, AskEvent, DrawEvent, FailEvent, SuccessEvent
+
+
+ALLOWED_RANKS = CARD_FIELD_VALUES['rank']
 
 
 class ObservedOpponentRanks:
@@ -37,10 +40,10 @@ class ObservedOpponentRanks:
             exchange_event (ExchangeEvent): A dataclass including, player_giving,
                 player_receiving, rank, number.
         """
-        if self.opponent == exchange_event.player_receiving:
+        if self.opponent == exchange_event.destination:
             self.ranks[exchange_event.rank] += exchange_event.number
 
-        elif self.opponent == exchange_event.player_giving:
+        elif self.opponent == exchange_event.source:
             self.ranks[exchange_event.rank] = 0
 
     def update_book_event(self, book_event):
@@ -107,10 +110,10 @@ class ObservedOpponentHandLen:
             exchange_event (EchangeEvent): A dataclass including, player_giving_index,
                 player_receiving_index, rank, number.
         """
-        if self.opponent == exchange_event.player_receiving:
+        if self.opponent == exchange_event.destination:
             self.hand_len += exchange_event.number
 
-        elif self.opponent == exchange_event.player_giving:
+        elif self.opponent == exchange_event.source:
             self.hand_len -= exchange_event.number
 
     def update_book_event(self, book_event):

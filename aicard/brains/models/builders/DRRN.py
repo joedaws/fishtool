@@ -9,3 +9,4 @@ class DRRNBuilder:
 
     def build(self):
         """Instantiate a DRRN network."""
+        pass
