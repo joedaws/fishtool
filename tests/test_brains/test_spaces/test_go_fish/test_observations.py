@@ -22,11 +22,14 @@ def observation(players):
     return obs
 
 
-def test_update_draw_event(players, observation):
+def test_obs(players, observation):
     """test that hand length increases after a draw"""
-    for opponent in observation.opponents:
-        opponent.draw(deck=Deck(), n=1)
-        draw = DrawEvent(player=opponent, number=1)
-        observation.update(draw)
-        ranks, number = observation.get_observation(opponent)
-        assert number == 1
+    assert hasattr(observation, 'player')
+    assert observation.player == players[0]
+    assert hasattr(observation, 'opponents')
+    for opp in observation.opponents:
+        assert opp in observation.opponents
+    assert hasattr(observation, 'num_opponents')
+    assert observation.num_opponents == 3
+    assert hasattr(observation, 'observed_ranks')
+    assert hasattr(observation, 'observed_hand_len')

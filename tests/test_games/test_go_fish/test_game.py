@@ -1,6 +1,7 @@
 import pytest
 from aicard.games.go_fish import INITIAL_HAND_SIZE_MAP
 from aicard.games.run import create_game
+from aicard import MOTHERBRAIN_PATH
 import yaml
 from yaml import Loader
 import os
@@ -9,8 +10,8 @@ import os
 @pytest.fixture
 def game():
     """Parse configs, create game, and play."""
-    config_path = os.path.abspath('../../../aicard/games/go_fish/config/')
-    go_fish_config_path = os.path.join(config_path,'random.yaml')
+    config_path = os.path.join(MOTHERBRAIN_PATH, 'games/go_fish/config/')
+    go_fish_config_path = os.path.join(config_path, 'random.yaml')
 
     # load config
     with open(go_fish_config_path, 'rb') as stream:

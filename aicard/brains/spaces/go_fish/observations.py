@@ -56,6 +56,7 @@ class ObservedOpponentRanks:
         if self.opponent == ask_event.player:
             self.ranks[ask_event.rank] += 1
 
+
 class ExactOpponentHandLen:
     """Class for storing the exact hand lengths of opponents."""
     def __init__(self, opponent):
