@@ -1,4 +1,4 @@
-from aicard.games.go_fish.states import GoFishState
+from aicard.games.go_fish.state import GoFishState
 from aicard.players.go_fish import GoFishPlayer
 
 

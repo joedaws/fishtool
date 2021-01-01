@@ -32,14 +32,14 @@ class AskEvent:
 class ExchangeEvent:
     """Stores data for an exchange.
 
-    Attributes:
-        player_giving (int): Giving players index.
-        player_receiving (int): Receiving players index.
+    Fields:
+        source (Player): Giving players index.
+        destination (Player): Receiving players index.
         rank (str): Ranks of card(s) being exchanged.
         number (int): Number of cards with specific rank being exchanged.
     """
-    player_giving: Player
-    player_receiving: Player
+    source: Player
+    destination: Player
     rank: str
     number: int
 

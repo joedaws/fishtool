@@ -16,7 +16,7 @@ class MultilayerPerceptronBuilder:
     ALLOWED_INITIALIZATIONS = ['random']
 
     def __init__(self, config):
-        self.config = config
+        self.initialization = config.initialization
         self.num_layers = config.num_layers
         self.input_dim = config.input_dim
         self.width = config.width
@@ -31,7 +31,7 @@ class MultilayerPerceptronBuilder:
     def build(self):
         """Instantiates a multilayer perceptron model."""
         model = None
-        initialization = self.config.initialization
+        initialization = self.initialization
         if initialization == 'random':
             model = self.build_base_model()
         elif initialization not in self.ALLOWED_INITIALIZATIONS:

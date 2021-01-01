@@ -1,5 +1,6 @@
-from importlib import import_module 
-import configparser
+from importlib import import_module
+import yaml
+from yaml import Loader
 import argparse
 
 
@@ -17,7 +18,7 @@ def create_game(config):
 def create_policies(config):
     """Import and create policy classes for players."""
     # get player's names
-    player_names = config['players']['names'].split(',')
+    player_names = config['players']['names']
     # get policy types
     player_policy_modules = [config[name]['policy module']
                              for name in player_names]
@@ -41,8 +42,8 @@ def main():
     config_path = args.game_config
 
     # load config
-    config = configparser.ConfigParser()
-    config.read(config_path)
+    with open(config_path, 'rb') as stream:
+        config = yaml.load(stream, Loader=Loader)
 
     # load game
     game = create_game(config)
