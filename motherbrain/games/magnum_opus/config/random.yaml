@@ -1,0 +1,30 @@
+# IMPORTANT -- for class names use Camel case for module names use snake case
+
+game:
+    game module: motherbrain.games.<game_name>.game
+    game class: <game_name>Game
+
+players:
+    player module: motherbrain.players.<game_name>
+    player class: <game_name>Player
+    names:
+        - player 1
+        - player 2
+        - player 3
+        - player 4
+
+player 1:
+    policy module: motherbrain.brains.policies.<game_name>.random
+    policy class: <game_name>RandomPolicy
+
+player 2:
+    policy module: motherbrain.brains.policies.<game_name>.random
+    policy class: <game_name>RandomPolicy
+
+player 3:
+    policy module: motherbrain.brains.policies.<game_name>.random
+    policy class: <game_name>RandomPolicy
+
+player 4:
+    policy module: motherbrain.brains.policies.<game_name>.random
+    policy class: <game_name>RandomPolicy
