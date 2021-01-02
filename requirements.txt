@@ -1,5 +1,5 @@
 pytest~=5.3.5
-aicard~=0.0.1
+motherBrain~=0.1.0
 tensorflow~=2.0.0
 numpy~=1.18.1
 gym~=0.17.1

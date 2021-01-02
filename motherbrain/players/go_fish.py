@@ -1,5 +1,5 @@
 from motherbrain.players.base import Player
-from motherbrain.games.go_fish.info import CARD_FIELD_VALUES
+from motherbrain.games.go_fish.card import CARD_FIELD_VALUES
 from motherbrain.games.core.events import ExchangeEvent, BookEvent, FailEvent, DrawEvent
 
 

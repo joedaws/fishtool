@@ -8,12 +8,14 @@ class CardBuilder:
     Examples:
         For a standard playing card, we can make the
         card_fields = [('rank', str), ('suit', str)]
+        game_module = 'motherbrain.games.go_fish'
+        card_module = 'info'
     """
-    def __init__(self, game_module):
-        self.game_info = import_module(game_module)
-        name = getattr(self.game_info, 'NAME')
-        fields = getattr(self.game_info, 'CARD_FIELDS')
-        str_fun = getattr(self.game_info, 'CARD_STR_FUN')
+    def __init__(self, game_module, card_module):
+        self.card_info = import_module('.'.join([game_module, card_module]))
+        name = getattr(self.card_info, 'NAME')
+        fields = getattr(self.card_info, 'CARD_FIELDS')
+        str_fun = getattr(self.card_info, 'CARD_STR_FUN')
         self.card_class = self.make_card_class(name, fields, str_fun)
 
     @staticmethod
