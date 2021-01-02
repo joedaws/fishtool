@@ -1,0 +1,2 @@
+# IMPORTANT -- for module names use snake case
+from motherbrain.games.<game_name>.info import *

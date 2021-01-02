@@ -1,0 +1,4 @@
+"""
+This file should contain the definition of class <game_name>Player
+where <game_name> should be CamelCase.
+"""
