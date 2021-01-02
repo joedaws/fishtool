@@ -12,3 +12,6 @@ __pycache__/
 
 # ignore the data directory
 data/
+
+# ignore venv created by pycharm
+venv/
