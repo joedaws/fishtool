@@ -59,6 +59,6 @@ ELEMENT_MAP = {'Aries': 'Fire', 'Taurus': 'Earth', 'Gemini': 'Air',
 
 
 def card_generator():
-    return ({'name': name, 'sign': sign, 'element': ELEMENT_MAP[sign]}
-            for name in ALCHEMIST_CARD_FIELD_VALUES['name']
-            for sign in ALCHEMIST_CARD_FIELD_VALUES['sign'])
+    return ({'name': fake.name(), 'sign': sign, 'element': ELEMENT_MAP[sign]}
+            for sign in CARD_FIELD_VALUES['sign']
+            for _ in range(2))
