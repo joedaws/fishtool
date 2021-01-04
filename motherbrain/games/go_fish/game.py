@@ -118,6 +118,7 @@ class GoFishGame:
             # give available actions to policy and choose an action
             policy = self.policies_map[player]
             policy.actions = actions
+            policy.observations = observations
             opponent, ask_rank = policy.sample()
 
             # generate ask event
