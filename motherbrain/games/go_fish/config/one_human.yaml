@@ -5,7 +5,11 @@ game:
 players:
     player module: motherbrain.players.go_fish
     player class: GoFishPlayer
-    names: player 1,player 2,player 3,player 4
+    names:
+        - player 1
+        - player 2
+        - player 3
+        - player 4
 
 player 1:
     policy module: motherbrain.brains.policies.go_fish.human
