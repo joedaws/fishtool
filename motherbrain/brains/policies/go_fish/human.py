@@ -1,6 +1,6 @@
 import sys
 from motherbrain.brains.spaces.go_fish.actions import Actions
-from motherbrain.engine.io.getch import getch
+from motherbrain.interface.io.getch import getch
 
 
 class GoFishHumanPolicy:
@@ -15,6 +15,7 @@ class GoFishHumanPolicy:
     """
     def __init__(self):
         self._actions = None
+        self._observations = None
 
     @property
     def actions(self):
@@ -25,6 +26,16 @@ class GoFishHumanPolicy:
     def actions(self, new_actions: Actions):
         """Overwrite the actions stored in Actions."""
         self._actions = new_actions
+
+    @property
+    def observations(self):
+        """An instance of the observations class"""
+        return self._observations
+
+    @observations.setter
+    def observations(self, new_observations):
+        """Overwrite the observations."""
+        self._observations = new_observations
 
     def rank_to_seek(self):
         """Ask user to choose one of the available ranks."""

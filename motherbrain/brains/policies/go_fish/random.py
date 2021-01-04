@@ -11,6 +11,7 @@ class GoFishRandomPolicy:
     """
     def __init__(self):
         self._actions = None
+        self._observations = None
 
     @property
     def actions(self):
@@ -21,6 +22,16 @@ class GoFishRandomPolicy:
     def actions(self, new_actions: Actions):
         """Overwrite the actions stored in Actions."""
         self._actions = new_actions
+
+    @property
+    def observations(self):
+        """An instance of the observations class"""
+        return self._observations
+
+    @observations.setter
+    def observations(self, new_observations):
+        """Overwrite the observations."""
+        self._observations = new_observations
 
     def rank_to_seek(self):
         """Choose a rank to ask an opponent for."""

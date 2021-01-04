@@ -2,7 +2,7 @@ from motherbrain.games.go_fish.card import CARD_FIELD_VALUES
 from motherbrain.games.core.events import ExchangeEvent, BookEvent, AskEvent, DrawEvent, FailEvent, SuccessEvent
 
 
-ALLOWED_RANKS = CARD_FIELD_VALUES['rank']
+RANKS = CARD_FIELD_VALUES['rank']
 
 
 class ObservedOpponentRanks:
@@ -13,7 +13,7 @@ class ObservedOpponentRanks:
     """
     def __init__(self, opponent):
         self.opponent = opponent
-        self.ranks = {rank: 0 for rank in ALLOWED_RANKS}
+        self.ranks = {rank: 0 for rank in RANKS}
 
     def update(self, event):
         """After an event update the observed ranks.
@@ -55,6 +55,13 @@ class ObservedOpponentRanks:
         """Update the observed ranks after an ask event."""
         if self.opponent == ask_event.player:
             self.ranks[ask_event.rank] += 1
+
+    def __str__(self):
+        """String representation of this observation."""
+        info = f"Ranks observed for opponent {self.opponent.name} are:\n"
+        rank_info = "".join([count+": "+rank+"\n"
+                            for rank, count in self.ranks.items() if count > 0])
+        return info+rank_info
 
 
 class ExactOpponentHandLen:
@@ -152,3 +159,8 @@ class Observations:
         for opponent in self.opponents:
             self.observed_ranks[opponent].update(event)
             self.observed_hand_len[opponent].update(event)
+
+    def __str__(self):
+        """Returns Strings of all of the observed ranks."""
+        string = "".join([str(obs) for opp, obs in self.observed_ranks.items()])
+        return string
