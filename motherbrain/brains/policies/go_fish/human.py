@@ -1,6 +1,6 @@
 import sys
 from motherbrain.brains.spaces.go_fish.actions import Actions
-from motherbrain.interface.io.getch import getch
+from motherbrain.engine.io.getch import getch
 
 
 class GoFishHumanPolicy:
