@@ -13,13 +13,16 @@ class Animator:
     """Base animator classes"""
     def __init__(self):
         self.fps = DEFAULT_FPS  # the default frames per second
-        self.wait_between_frames = 1/self.fps
         self.done = False
         try:
             self.columns, self.lines = os.get_terminal_size()
         except Exception as e:
             self.columns = 80
             self.lines = 30
+
+    @property
+    def wait_between_frames(self):
+        return 1/self.fps
 
     def clear(self):
         # for windows
@@ -59,9 +62,31 @@ class Animator:
             self.clear_line()
         return wrapper
 
-    def animate(self, duration, strings_to_draw, animate_fn=None):
+    def animate(self, strings_to_draw, animate_fn=None):
         if animate_fn is None:
             animate_fn = self.animate_fn
+
+        animate_fn(strings_to_draw=strings_to_draw)
+
+    def animate_fn(self, strings_to_draw: list):
+        """Animates the string objects in the strings to draw list.
+
+        Args:
+            strings_to_draw: List of strings that should be drawin in order
+
+        Returns:
+            nothing, but prints
+        """
+        for string in strings_to_draw:
+            self.carriage_return()
+            self.write(string)
+            self.flush()
+            self.sleep(self.wait_between_frames)
+        self.write('\n')
+
+    def loop_animate(self, duration, strings_to_draw, animate_fn=None):
+        if animate_fn is None:
+            animate_fn = self.loop_animate_fn
 
         t = threading.Thread(target=animate_fn,
                              kwargs={'strings_to_draw': strings_to_draw})
@@ -70,10 +95,9 @@ class Animator:
         # sleep while the animation is drawing
         self.sleep(duration)
         self.done = True
-        self.clear_line()
 
-    def animate_fn(self, strings_to_draw: list):
-        """Animates the string objects in the strings to draw list.
+    def loop_animate_fn(self, strings_to_draw: list):
+        """Looping animation the string objects in the strings to draw list.
 
         Args:
             strings_to_draw: List of strings that should be drawin in order
