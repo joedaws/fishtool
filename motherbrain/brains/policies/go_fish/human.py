@@ -44,12 +44,12 @@ class GoFishHumanPolicy:
 
         # create valid choice mapping
         user_input_to_idx = {str(i+1): i for i in range(len(self.actions.valid_ranks))}
-        user_input_to_idx['q'] = 14
+        #user_input_to_idx['q'] = 14
 
         # process user input
         try:
             ask_idx = user_input_to_idx[user_input]
-            if ask_idx == 14:
+            if ask_idx == 'q':
                 # quit the game
                 sys.exit('quitting the game!')
             else:
@@ -68,12 +68,12 @@ class GoFishHumanPolicy:
 
         # create valid choice mapping
         user_input_to_idx = {str(i+1): i for i in range(len(self.actions.valid_opponents))}
-        user_input_to_idx['q'] = 14
+        #user_input_to_idx['q'] = 14
 
         # process user input
         try:
             ask_idx = user_input_to_idx[user_input]
-            if ask_idx == 14:
+            if ask_idx == 'q':
                 # quit the game
                 sys.exit('quitting the game!')
             else:
@@ -96,14 +96,19 @@ class GoFishHumanPolicy:
         rank_options = ["".join(['option ', str(i+1), ' : ', rank, '\n'])
                         for i, rank in enumerate(ranks)]
         print("".join(['Your ranks:\n']+rank_options))
-        sys.stdout.write("Choose a rank: ")
-        sys.stdout.flush()
+        #sys.stdout.write("Choose a rank: ")
+        #sys.stdout.flush()
         # query user for input
-        ask_idx_plus_one = getch()
-        sys.stdout.write('option ' + ask_idx_plus_one + '\n\n')
-        sys.stdout.flush()
+        #ask_idx_plus_one = getch()
+        ask_idx_plus_one = input("Choose a rank: ")
+        if ask_idx_plus_one != 'q':
+            try: 
+                sys.stdout.write(ranks[int(ask_idx_plus_one)-1] + '\n\n')
+                sys.stdout.flush()
+            except Exception as e:
+                print('Invalid choice.')
 
-        return ask_idx_plus_one 
+        return ask_idx_plus_one
 
     def ask_user_for_opp(self):
         """Ask user to choose an opponent."""
@@ -112,12 +117,17 @@ class GoFishHumanPolicy:
         opponent_options = ["".join(['option ', str(i+1), ' : ', opp.name, '\n'])
                             for i, opp in enumerate(opponents)]
         print("".join(['Your opponents:\n']+opponent_options))
-        sys.stdout.write("Choose an opponent: ")
-        sys.stdout.flush()
+        #sys.stdout.write("Choose an opponent: ")
+        #sys.stdout.flush()
         # query user for input
-        ask_idx_plus_one = getch()
-        sys.stdout.write('option ' + ask_idx_plus_one + '\n\n')
-        sys.stdout.flush()
+        #ask_idx_plus_one = getch()
+        ask_idx_plus_one = input("Choose an opponent: ")
+        if ask_idx_plus_one != 'q':
+            try:
+                sys.stdout.write(opponents[int(ask_idx_plus_one)-1].name + '\n\n')
+                sys.stdout.flush()
+            except Exception as e:
+                print('Invalid choice.')
 
         return ask_idx_plus_one
 
