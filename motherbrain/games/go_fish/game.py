@@ -1,3 +1,4 @@
+from motherbrain.engine.animators.slow_text import SlowText
 from motherbrain.games.go_fish.state import GoFishState
 from motherbrain.games.go_fish import INITIAL_HAND_SIZE_MAP
 from motherbrain.brains.spaces.go_fish.actions import Actions
@@ -11,6 +12,10 @@ from motherbrain.games.core.events import DrawEvent, \
                                      RemovePlayerEvent
 
 
+st = SlowText()
+# probably a bad idea to overwrite the default print
+print = st.animate_text
+
 class GoFishGame:
     """A class for executing a game of Go Fish.
 
@@ -23,7 +28,7 @@ class GoFishGame:
         policies (list): A list of policy classes.
     """
     # total number of books, this number is used to determine termination conditions.
-    TOTAL_BOOKS = 13     
+    TOTAL_BOOKS = 13
     NAME = 'Go Fish!'
 
     def __init__(self, policies):
@@ -44,7 +49,7 @@ class GoFishGame:
 
     def deal(self):
         """Deal cards to players."""
-        print(f"\nPHASE: begin dealing phase.\n")
+        #print(f"PHASE: begin dealing phase.\n\n")
         # Shuffle deck to ensure random start
         self.state.deck.shuffle()
 
@@ -55,14 +60,15 @@ class GoFishGame:
                 self.state.update(draw)
                 self.state.update(book)
 
-        print(f"\nPHASE: End dealing phase.\n")
+        print(f"The cards have been dealt! BEGIN!\n")
 
     def turn(self):
-        print(f'\nBeginning Turn {self.turn_number}.')
+        """Execute a full turn."""
+        print(f'Beginning Turn {self.turn_number}.')
         for player in self.state.players:
             # if a player is out they don't play their turn.
             if not player.is_out:
-                print(f"\n{player.name} is beginning their turn.\n")
+                print(f"{player.name} is beginning their turn.\n")
                 self.player_turn(player)
             self.check_game_over()
 
@@ -70,13 +76,16 @@ class GoFishGame:
             if self.over:
                 break
 
-        print(f'\nAfter Turn {self.turn_number} the status is. . .')
+        print(f'After Turn {self.turn_number} the status is. . .')
         status_str = ""
         for player in self.state.players:
-            status_str += f"{player.name} has {len(player.books)}"\
-                          f" books and {len(player.hand)} cards.\n"
-        status_str += f"The deck has {len(self.state.deck.cards)} cards remaining."
-        print(status_str)
+            
+            status_str = f"{player.name} has {len(player.books)}"\
+                         f" books and {len(player.hand)} cards."
+            print(status_str)
+
+        deck_status_str = f"The deck has {len(self.state.deck.cards)} cards remaining."
+        print(deck_status_str)
 
         self.turn_number += 1
 
@@ -155,7 +164,7 @@ class GoFishGame:
                 print(f"{player.name} made a book with rank {book.rank}.")
 
             # print statement about end of player's turn
-            print(f"{player.name} has finished their turn.")
+            print(f"{player.name} has finished their turn.\n")
 
     def event_draw(self, player: GoFishPlayer):
         """Draw a card from the deck and generate a DrawEvent."""
@@ -237,25 +246,25 @@ class GoFishGame:
             book_totals = {len(player.books): player
                            for player in self.state.players}
             winner = book_totals[max(book_totals)].name
-            print(f"\nAll books are acquired. {winner} has won!")
+            print(f"All books are acquired. {winner} has won!")
 
     @staticmethod
     def get_player_state_str(player):
         """returns string representation of a players state"""
-        state_str = f"{player.name} state:\n"
+        state_str = f"{player.name} state:"
         for rank in player.state:
             if player.state[rank]:
                 state_str += rank + ": "
             for suit in player.state[rank]:
                 state_str += suit + " "
             if player.state[rank]:
-                state_str += "\n"
+                state_str += " "
 
         return state_str
 
     def get_state_str(self):
         """Returns string representation of the state."""
-        state_str = f"The state of the go fish game:\n"
+        state_str = f"The state of the go fish game:"
         for player in self.state.players:
             state_str += self.get_player_state_str(player)
 

@@ -20,7 +20,7 @@ class Loading(Animator):
         self.done_str = 'Done!        '
 
     def draw_loading(self):
-        self.animate(duration=10, strings_to_draw=self.load_str)
+        self.loop_animate(duration=10, strings_to_draw=self.load_str)
         self.write(self.done_str)
         self.flush()
         self.count += 1
