@@ -1,4 +1,8 @@
-from motherbrain.engine.animators.slow_text import SlowText
+"""
+Game: GoFish
+Policies: Human, random
+Animators: Text
+"""
 from motherbrain.games.go_fish.state import GoFishState
 from motherbrain.games.go_fish import INITIAL_HAND_SIZE_MAP
 from motherbrain.brains.spaces.go_fish.actions import Actions
@@ -12,10 +16,6 @@ from motherbrain.games.core.events import DrawEvent, \
                                      RemovePlayerEvent
 
 
-st = SlowText()
-# probably a bad idea to overwrite the default print
-print = st.animate_text
-
 class GoFishGame:
     """A class for executing a game of Go Fish.
 
@@ -23,6 +23,9 @@ class GoFishGame:
         The state includes players and players observations as well as
         a map which maps a play index to a list of indices of that players's
         opponents.
+
+        The kind of text animation used depends on whether or not a human
+        policy is being used.
 
     Args:
         policies (list): A list of policy classes.
@@ -40,6 +43,10 @@ class GoFishGame:
                              for policy, player in zip(policies, self.state.players)}
 
         self.over = False
+
+        # set up print based on which policies are being used to choose actions
+        self.print_method = None
+        self._setup_print_method(policies)
 
     def play(self):
         """Play a game of Go Fish."""
@@ -60,15 +67,15 @@ class GoFishGame:
                 self.state.update(draw)
                 self.state.update(book)
 
-        print(f"The cards have been dealt! BEGIN!\n")
+        self.print_method(f"The cards have been dealt! BEGIN!\n")
 
     def turn(self):
         """Execute a full turn."""
-        print(f'Beginning Turn {self.turn_number}.')
+        self.print_method(f'Beginning Turn {self.turn_number}.')
         for player in self.state.players:
             # if a player is out they don't play their turn.
             if not player.is_out:
-                print(f"{player.name} is beginning their turn.\n")
+                self.print_method(f"{player.name} is beginning their turn.\n")
                 self.player_turn(player)
             self.check_game_over()
 
@@ -76,16 +83,16 @@ class GoFishGame:
             if self.over:
                 break
 
-        print(f'After Turn {self.turn_number} the status is. . .')
+        self.print_method(f'After Turn {self.turn_number} the status is. . .')
         status_str = ""
         for player in self.state.players:
             
             status_str = f"{player.name} has {len(player.books)}"\
                          f" books and {len(player.hand)} cards."
-            print(status_str)
+            self.print_method(status_str)
 
         deck_status_str = f"The deck has {len(self.state.deck.cards)} cards remaining."
-        print(deck_status_str)
+        self.print_method(deck_status_str)
 
         self.turn_number += 1
 
@@ -102,10 +109,10 @@ class GoFishGame:
             keep_asking = isinstance(draw, DrawEvent)
             # print statements about books
             if isinstance(book, BookEvent):
-                print(f"{player.name} made a book with rank {book.rank}.")
+                self.print_method(f"{player.name} made a book with rank {book.rank}.")
 
         if isinstance(card_check, FailEvent) and len(self.state.deck.cards) == 0:
-            print(f"{player.name} is out!")
+            self.print_method(f"{player.name} is out!")
             remove_player = self.event_remove_player(player)
             self.state.update(remove_player)
 
@@ -115,7 +122,7 @@ class GoFishGame:
             # ensure player has cards before asking. Remove them if they do not.
             card_check = self.event_has_cards(player)
             if isinstance(card_check, FailEvent) and len(self.state.deck.cards) == 0:
-                print(f"{player.name} is out!")
+                self.print_method(f"{player.name} is out!")
                 remove_player = self.event_remove_player(player)
                 self.state.update(remove_player)
                 break
@@ -142,18 +149,18 @@ class GoFishGame:
             # print statements about exchange
             if isinstance(exchange, ExchangeEvent):
                 if exchange.number == 1:
-                    print(f"{player.name} obtained a {exchange.rank} from {opponent.name}.")
+                    self.print_method(f"{player.name} obtained a {exchange.rank} from {opponent.name}.")
                 else:
-                    print(f"{player.name} obtained {exchange.number} {exchange.rank}s from {opponent.name}.")
+                    self.print_method(f"{player.name} obtained {exchange.number} {exchange.rank}s from {opponent.name}.")
 
             elif isinstance(exchange, FailEvent):
-                print(f"{player.name} did not obtain a {ask_rank} from {opponent.name}.")
+                self.print_method(f"{player.name} did not obtain a {ask_rank} from {opponent.name}.")
                 # A player who does not make a catch cannot keep asking.
                 keep_asking = False
 
             # print statements about books
             if isinstance(book, BookEvent):
-                print(f"{player.name} made a book with rank {book.rank}.")
+                self.print_method(f"{player.name} made a book with rank {book.rank}.")
 
         if not player.is_out:
             # after the asking phase of the turn ends, the player draws a card.
@@ -161,19 +168,19 @@ class GoFishGame:
             self.state.update(draw)
             self.state.update(book)
             if isinstance(book, BookEvent):
-                print(f"{player.name} made a book with rank {book.rank}.")
+                self.print_method(f"{player.name} made a book with rank {book.rank}.")
 
             # print statement about end of player's turn
-            print(f"{player.name} has finished their turn.\n")
+            self.print_method(f"{player.name} has finished their turn.\n")
 
     def event_draw(self, player: GoFishPlayer):
         """Draw a card from the deck and generate a DrawEvent."""
         deck = self.state.deck
         if len(deck) > 0:
             draw, book = player.draw(deck)
-            print(f"{player.name} drew a card from the deck and now has {len(player.hand)} card(s).")
+            self.print_method(f"{player.name} drew a card from the deck and now has {len(player.hand)} card(s).")
         else:
-            print(f"{player.name} tried to draw a card, but the deck was empty.")
+            self.print_method(f"{player.name} tried to draw a card, but the deck was empty.")
             draw = FailEvent(player=player)
             book = FailEvent(player=player)
 
@@ -189,10 +196,9 @@ class GoFishGame:
 
         return event
 
-    @staticmethod
-    def event_ask(rank: str, player: GoFishPlayer, opponent: GoFishPlayer):
+    def event_ask(self, rank: str, player: GoFishPlayer, opponent: GoFishPlayer):
         """Generate an AskEvent based on the player."""
-        print(f"{player.name} is asking {opponent.name} for a {rank}.")
+        self.print_method(f"{player.name} is asking {opponent.name} for a {rank}.")
         event = AskEvent(player=player, opponent=opponent, rank=rank)
         return event
 
@@ -229,7 +235,7 @@ class GoFishGame:
             try:
                 policy.reset()
             except AttributeError:
-                print(f"{type(policy)} cannot or does not need to be reset.")
+                self.print_method(f"{type(policy)} cannot or does not need to be reset.")
 
         # reset game over flag
         self.over = False
@@ -246,7 +252,7 @@ class GoFishGame:
             book_totals = {len(player.books): player
                            for player in self.state.players}
             winner = book_totals[max(book_totals)].name
-            print(f"All books are acquired. {winner} has won!")
+            self.print_method(f"All books are acquired. {winner} has won!")
 
     @staticmethod
     def get_player_state_str(player):
@@ -274,4 +280,26 @@ class GoFishGame:
         """Printable version of state of Game."""
         state_str = self.get_state_str()
         return state_str
+
+    def _setup_print_method(self, policies):
+        """Chooses the appropriate TextAnimator based on the policies playing.
+
+        When a human policy is used, use the slow text animator.
+        This method choose the "strategy" for printing text.
+
+        Args:
+            policies (list): List of policies being used in the
+                game to choose actions.
+        """
+        # check policies for human policy
+        policy_names = [policy.NAME for policy in policies]
+        if 'human' in policy_names:
+            # set print strategy to slow text
+            from motherbrain.engine.animators.slow_text import SlowText
+            st = SlowText()
+            self.print_method = st.animate_text
+
+        else: 
+            # set print strategy to fast text
+            self.print_method = print
 
