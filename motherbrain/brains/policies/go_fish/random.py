@@ -9,6 +9,9 @@ class GoFishRandomPolicy:
     class's instantiation. The actions are provided at choice time and
     then passed to
     """
+
+    NAME = 'random'
+
     def __init__(self):
         self._actions = None
         self._observations = None

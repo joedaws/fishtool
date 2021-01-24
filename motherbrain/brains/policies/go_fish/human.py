@@ -13,6 +13,9 @@ class GoFishHumanPolicy:
     choices and the user inputs one charater to choose one
     of the available options.
     """
+
+    NAME = 'human'
+
     def __init__(self):
         self._actions = None
         self._observations = None
