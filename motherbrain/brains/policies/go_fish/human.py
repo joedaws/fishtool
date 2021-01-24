@@ -49,11 +49,7 @@ class GoFishHumanPolicy:
         # process user input
         try:
             ask_idx = user_input_to_idx[user_input]
-            if ask_idx == 'q':
-                # quit the game
-                sys.exit('quitting the game!')
-            else:
-                ask_rank = self.actions.valid_ranks[ask_idx]
+            ask_rank = self.actions.valid_ranks[ask_idx]
         except KeyError:
             # ask for another rank
             print(f'The choice {user_input} is invalid. Please choose another.')
@@ -73,11 +69,7 @@ class GoFishHumanPolicy:
         # process user input
         try:
             ask_idx = user_input_to_idx[user_input]
-            if ask_idx == 'q':
-                # quit the game
-                sys.exit('quitting the game!')
-            else:
-                ask_opp = self.actions.valid_opponents[ask_idx]
+            ask_opp = self.actions.valid_opponents[ask_idx]
         except KeyError:
             # ask for another opponent
             print(f'The choice {user_input} is invalid. Please choose another.')
@@ -92,14 +84,10 @@ class GoFishHumanPolicy:
     def ask_user_for_rank(self):
         """Ask user to choose a rank."""
         ranks = self.actions.valid_ranks
-        # prompt user for character.
+        # prompt user to choose a rank.
         rank_options = ["".join(['option ', str(i+1), ' : ', rank, '\n'])
                         for i, rank in enumerate(ranks)]
         print("".join(['Your ranks:\n']+rank_options))
-        #sys.stdout.write("Choose a rank: ")
-        #sys.stdout.flush()
-        # query user for input
-        #ask_idx_plus_one = getch()
         ask_idx_plus_one = input("Choose a rank: ")
         if ask_idx_plus_one != 'q':
             try: 
@@ -107,7 +95,10 @@ class GoFishHumanPolicy:
                 sys.stdout.flush()
             except Exception as e:
                 print('Invalid choice.')
-
+        else:
+            # quit the game
+            sys.exit('quitting the game!')
+     
         return ask_idx_plus_one
 
     def ask_user_for_opp(self):
@@ -117,10 +108,6 @@ class GoFishHumanPolicy:
         opponent_options = ["".join(['option ', str(i+1), ' : ', opp.name, '\n'])
                             for i, opp in enumerate(opponents)]
         print("".join(['Your opponents:\n']+opponent_options))
-        #sys.stdout.write("Choose an opponent: ")
-        #sys.stdout.flush()
-        # query user for input
-        #ask_idx_plus_one = getch()
         ask_idx_plus_one = input("Choose an opponent: ")
         if ask_idx_plus_one != 'q':
             try:
@@ -128,6 +115,9 @@ class GoFishHumanPolicy:
                 sys.stdout.flush()
             except Exception as e:
                 print('Invalid choice.')
+        else:
+            # quit the game
+            sys.exit('quitting the game!')
 
         return ask_idx_plus_one
 
