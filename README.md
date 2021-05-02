@@ -41,8 +41,8 @@ This project is under development.
 * Currently, only go fish is implemented. 
 * To run a game of GoFish between four players all using random policies use:
 
-```
-python -m aicard.game.run --game_config=aicard.games.go_fish.config.random.yaml
+```python
+python -m motherbrain.games.run --game_config=motherbrain/games/go_fish/config/random.yaml
 ```
 
 ## Version History
