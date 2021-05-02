@@ -1,9 +1,10 @@
 from motherbrain.players.go_fish import GoFishPlayer
+from motherbrain.games.core.game import GameState
 from motherbrain.games.core.deck_builder import DeckBuilder
 from motherbrain.brains.spaces.go_fish.observations import Observations
 
 
-class GoFishState:
+class GoFishState(GameState):
     """A class representing the state of the go fish game."""
 
     get_deck = DeckBuilder('motherbrain.games.go_fish', 'card').build_deck
@@ -18,6 +19,8 @@ class GoFishState:
 
         self.observations = {player: Observations(player, self.opponents_map[player])
                              for player in self.players}
+
+        self._observers = []
 
     def reset(self):
         """Reset to an initial state."""
@@ -39,6 +42,16 @@ class GoFishState:
         # update observations
         for player in self.players:
             self.observations[player].update(event)
+
+    def attach(self, observer):
+        self._observers.append(observer)
+
+    def detach(self, observer):
+        self._observers.remove(observer)
+
+    def notify(self):
+        for observer in self._observers:
+            observer.notify()
 
     def _set_player_indices(self):
         """Set the index attribute of the players."""

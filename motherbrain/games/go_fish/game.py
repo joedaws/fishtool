@@ -7,6 +7,7 @@ from motherbrain.games.go_fish.state import GoFishState
 from motherbrain.games.go_fish import INITIAL_HAND_SIZE_MAP
 from motherbrain.brains.spaces.go_fish.actions import Actions
 from motherbrain.players.go_fish import GoFishPlayer
+from motherbrain.games.core.game import Game
 from motherbrain.games.core.events import DrawEvent, \
                                      BookEvent, \
                                      AskEvent, \
@@ -16,7 +17,7 @@ from motherbrain.games.core.events import DrawEvent, \
                                      RemovePlayerEvent
 
 
-class GoFishGame:
+class GoFishGame(Game):
     """A class for executing a game of Go Fish.
 
     Note:

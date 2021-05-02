@@ -1,20 +1,28 @@
 # motherbrain
 
-__Status__: pre-alpha
-
 _motherbrain_ is a project to explore how to use machine learning to create 
 game playing agents which are fun to play against. This python module implements 
 both games and machine learning tools. The games are implemented in such a way
 as to make it easy to capture _events_ that occur during game play. These events
 can later be used to train agents to play the game.
 
-Currently, only _go fish_ is implemented. This project is structed in such 
+Currently, only _go fish_ is implemented. This project is structured in such 
 a way as to allow for construction of new games for which agents may 
 be trained to pay.
 
 ## Description
 
 This project is under development.
+
+## Development
+
+- [ ] implement game state observer
+- [ ] Make existing game classes subclasses of Game
+- [ ] Make existing game state classes subclasses of GameState
+- [ ] implement notify methods in existing game st
+- [ ] Adding observers to games before they are run
+- [ ] define attach, detach, and notify methods to game base class
+
 
 ## Getting Started
 
