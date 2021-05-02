@@ -1,7 +1,51 @@
-from motherbrain.players.go_fish import GoFishPlayer
-from motherbrain.games.core.game import GameState
-from motherbrain.games.core.deck_builder import DeckBuilder
+from __future__ import annotations
+from dataclasses import dataclass
 from motherbrain.brains.spaces.go_fish.observations import Observations
+from motherbrain.games.core.deck import Deck
+from motherbrain.games.core.deck_builder import DeckBuilder
+from motherbrain.games.core.game import GameState
+from motherbrain.games.core.game import GameStateObserver
+from motherbrain.players.go_fish import GoFishPlayer
+
+
+@dataclass
+class GoFishStateStep:
+    """A class for storing the state of a go fish game at a particular step."""
+    players: list
+    player_states: dict 
+    deck: Deck
+    observations: dict
+
+
+class GoFishStateObserver(GameStateObserver):
+    """
+    Observer of the go fish game. Records events after being notified by the GoFishState.
+    """
+    def update(self, game_state: GoFishState):
+        """
+        recieve updates from the game state and
+        append to the record.
+
+        For reinforcement learning we will need 
+        - player state for each player
+        - The deck 
+        - The observations made by each player
+
+        Policy probabilities or state will be recorded by a policy observer
+        """
+        step_data = {
+            'players': game_state.players,
+            'player_states': {player: player.state for player in game_state.players},
+            'deck': game_state.deck,
+            'observations': game_state.observations
+        }
+
+        step = GoFishStateStep(**step_data)
+        self.save(step)
+
+    def save(self, step: GoFishStateStep):
+        """save an instance of the step data"""
+        print(step)
 
 
 class GoFishState(GameState):
@@ -43,15 +87,22 @@ class GoFishState(GameState):
         for player in self.players:
             self.observations[player].update(event)
 
-    def attach(self, observer):
+        # need to notify recorder so that it can make a
+        # record of the state
+        self.notify()
+
+    def attach(self, observer: GoFishStateObserver) -> None:
+        """Attach a game state observer."""
         self._observers.append(observer)
 
-    def detach(self, observer):
+    def detach(self, observer: GoFishStateObserver) -> None:
+        """Attach a go fish state observer"""
         self._observers.remove(observer)
 
-    def notify(self):
+    def notify(self) -> None:
+        """Notify State Observers of change to state."""
         for observer in self._observers:
-            observer.notify()
+            observer.update(self)
 
     def _set_player_indices(self):
         """Set the index attribute of the players."""
@@ -62,3 +113,5 @@ class GoFishState(GameState):
         """Create a dictionary describing the opponents of each players."""
         indices = list(self.players.values())
         return {player: [opponent for opponent in self.players if opponent != player] for player in self.players}
+
+
