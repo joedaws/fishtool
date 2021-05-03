@@ -21,6 +21,9 @@ class GoFishStateObserver(GameStateObserver):
     """
     Observer of the go fish game. Records events after being notified by the GoFishState.
     """
+    def __init__(self):
+        self._history = []
+
     def update(self, game_state: GoFishState):
         """
         recieve updates from the game state and
@@ -43,9 +46,14 @@ class GoFishStateObserver(GameStateObserver):
         step = GoFishStateStep(**step_data)
         self.save(step)
 
-    def save(self, step: GoFishStateStep):
+    def save(self, step: GoFishStateStep) -> None:
         """save an instance of the step data"""
-        print(step)
+        self._history.append(step)
+
+    def record_history(self):
+        """Record a history of states"""
+        print('in the future I will record the history')
+
 
 
 class GoFishState(GameState):

@@ -23,6 +23,13 @@ This project is under development.
 - [ ] Adding observers to games before they are run
 - [ ] define attach, detach, and notify methods to game base class
 
+### Reinforcement learning
+Collaborative or competitive agents take turns taking actions which may change
+the state of the environment. The important data to collect are
+* agent/player making observation 
+* the state of the game at observations time 
+* the action selected by the agent
+* possibly the result of selecting the action (this will be stored in the next step also)
 
 ## Getting Started
 

@@ -4,6 +4,7 @@ Policies: Human, random
 Animators: Text
 """
 from motherbrain.games.go_fish.state import GoFishState
+from motherbrain.games.go_fish.state import GoFishStateObserver
 from motherbrain.games.go_fish import INITIAL_HAND_SIZE_MAP
 from motherbrain.brains.spaces.go_fish.actions import Actions
 from motherbrain.players.go_fish import GoFishPlayer
@@ -37,12 +38,23 @@ class GoFishGame(Game):
 
     def __init__(self, policies):
         self.num_players = len(policies)
+
+        # initialize game state
         self.state = GoFishState(self.num_players)
+
+        # attach game state observers
+        # TODO make this conditional so that you don't always have an observer
+        game_state_observer = GoFishStateObserver()
+        self.state.attach(game_state_observer)
+        
+        # initialize turn number
         self.turn_number = 1
+
         # instantiate a policy for each player
         self.policies_map = {player: policy()
                              for policy, player in zip(policies, self.state.players)}
 
+        # initialize 
         self.over = False
 
         # set up print based on which policies are being used to choose actions
@@ -54,6 +66,10 @@ class GoFishGame(Game):
         self.deal()
         while not self.over:
             self.turn()
+
+        # record collected game data
+        for observer in self.state._observers:
+            observer.record_history()
 
     def deal(self):
         """Deal cards to players."""
