@@ -36,15 +36,15 @@ class GoFishGame(Game):
     TOTAL_BOOKS = 13
     NAME = 'Go Fish!'
 
-    def __init__(self, policies):
+    def __init__(self, policies, record):
         self.num_players = len(policies)
 
         # initialize game state
         self.state = GoFishState(self.num_players)
 
         # attach game state observers
-        # TODO make this conditional so that you don't always have an observer
-        game_state_observer = GoFishStateObserver()
+        # if record is true then the observer will try to write the history to file
+        game_state_observer = GoFishStateObserver(record)
         self.state.attach(game_state_observer)
         
         # initialize turn number

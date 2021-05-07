@@ -6,6 +6,7 @@ from motherbrain.games.core.deck_builder import DeckBuilder
 from motherbrain.games.core.game import GameState
 from motherbrain.games.core.game import GameStateObserver
 from motherbrain.players.go_fish import GoFishPlayer
+from time import gmtime, strftime
 
 
 @dataclass
@@ -21,8 +22,10 @@ class GoFishStateObserver(GameStateObserver):
     """
     Observer of the go fish game. Records events after being notified by the GoFishState.
     """
-    def __init__(self):
+    def __init__(self, record):
+        self.record = record
         self._history = []
+        self.id = strftime("%a-%d-%b-%Y-%H-%M-%S", gmtime())
 
     def update(self, game_state: GoFishState):
         """
@@ -44,16 +47,17 @@ class GoFishStateObserver(GameStateObserver):
         }
 
         step = GoFishStateStep(**step_data)
-        self.save(step)
+        if self.record:
+            self.record(step)
 
-    def save(self, step: GoFishStateStep) -> None:
-        """save an instance of the step data"""
+    def record(self, step: GoFishStateStep) -> None:
+        """Record events in the step to this history, an instance of the step data."""
         self._history.append(step)
 
     def record_history(self):
         """Record a history of states"""
-        print('in the future I will record the history')
-
+        if self.record:
+            self.write_to_library(self._history)
 
 
 class GoFishState(GameState):
