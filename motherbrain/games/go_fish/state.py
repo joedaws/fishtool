@@ -48,16 +48,16 @@ class GoFishStateObserver(GameStateObserver):
 
         step = GoFishStateStep(**step_data)
         if self.record:
-            self.record(step)
+            self.append(step)
 
-    def record(self, step: GoFishStateStep) -> None:
+    def append(self, step: GoFishStateStep) -> None:
         """Record events in the step to this history, an instance of the step data."""
         self._history.append(step)
 
     def record_history(self):
         """Record a history of states"""
         if self.record:
-            self.write_to_library(self._history)
+            self.write_to_library('go_fish', self._history)
 
 
 class GoFishState(GameState):

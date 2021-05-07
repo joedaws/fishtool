@@ -3,8 +3,9 @@ The core game class which other games inherit from
 """
 from __future__ import annotations # will become default in py3.10
 from abc import ABC, abstractmethod
-import h5py
-from motherbrain.games.core import LIBRARY_FILE
+import pickle
+from motherbrain.games.core import LIBRARY_PATH
+from motherbrain.games.core.scribe import GameScribe
 import os
 
 
@@ -61,7 +62,7 @@ class GameStateObserver(ABC):
     """
     Base Game state Observer class
     """
-    LIBRARY_FILE = LIBRARY_FILE
+    LIBRARY_PATH = LIBRARY_PATH
 
     def __init__(self):
         self._id = '0000'
@@ -81,19 +82,19 @@ class GameStateObserver(ABC):
         """
         pass
 
-    def write_to_library(self, history, tag=None):
+    def write_to_library(self, game_name, history, tag=None):
         """
         write history to file
         
         TODO in the future, allow for writting to 
         remote source such as S3 bucket.
         """
-        hf = h5py.File(self.LIBRARY_FILE, 'w')
-        data_set = hf.create_dataset(self.id, data=history)
-        if metadata:
-            meta_set = hf.attrs[self.id+'_tag'] = tag
-
-        # close file which saves to disc
-        hf.close()
+        scribe = GameScribe()
+        scribe.history = history
+        if tag:
+            scribe.tag = tag
+        artifact_path = os.path.join(self.LIBRARY_PATH, game_name, self.id+'.pkl')
+        scribe.save(artifact_path)
+        
 
 
