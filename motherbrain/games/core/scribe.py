@@ -1,6 +1,7 @@
 """
 Module implementing the game history scribe which loads and saves pickle game histories
 """
+import os
 import gzip
 import pickle 
 
@@ -37,6 +38,12 @@ class GameScribe:
     # Using HIGHEST_PROTOCOL is almost 2X faster and creates a file that
     # is ~10% smaller.  Load times go down by a factor of about 3X.
     def save(self, filename):
+        # make sure that the directory exists
+        parent, name = os.path.split(filename)
+        if not os.path.isdir(parent):
+            os.makedirs(parent)
+
+        # choose gzip or pickle
         if self.isGZIP(filename):
             f = gzip.open(filename, 'wb')
         else:
