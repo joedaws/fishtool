@@ -1,5 +1,5 @@
-from motherbrain.games.go_fish.state import GoFishState
-from motherbrain.players.go_fish import GoFishPlayer
+from cartomancy.games.go_fish.state import GoFishState
+from cartomancy.players.go_fish import GoFishPlayer
 
 
 def test_state():

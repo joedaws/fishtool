@@ -1,7 +1,7 @@
 import pytest
-from motherbrain.games.go_fish import INITIAL_HAND_SIZE_MAP
-from motherbrain.games.run import create_game
-from motherbrain import MOTHERBRAIN_PATH
+from cartomancy.games.go_fish import INITIAL_HAND_SIZE_MAP
+from cartomancy.games.run import create_game
+from cartomancy import CARTOMANCY_PATH
 import yaml
 from yaml import Loader
 import os
@@ -9,8 +9,8 @@ import os
 
 @pytest.fixture
 def game():
-    """Parse configs, create game, and play."""
-    config_path = os.path.join(MOTHERBRAIN_PATH, 'games/go_fish/config/')
+"""Parse configs, create game, and play."""
+config_path = os.path.join(CARTOMANCY_PATH, 'games/go_fish/config/')
     go_fish_config_path = os.path.join(config_path, 'random.yaml')
 
     # load config

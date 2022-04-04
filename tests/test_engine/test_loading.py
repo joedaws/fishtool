@@ -1,4 +1,4 @@
-from motherbrain.engine.animators.loading import Loading
+from cartomancy.engine.animators.loading import Loading
 
 
 def test_loading():

@@ -1,0 +1,28 @@
+game:
+    game module: cartomancy.games.go_fish.game
+    game class: GoFishGame
+
+players:
+    player module: cartomancy.players.go_fish
+    player class: GoFishPlayer
+    names:
+        - player 1
+        - player 2
+        - player 3
+        - player 4
+
+player 1:
+    policy module: cartomancy.brains.policies.go_fish.human
+    policy class: GoFishHumanPolicy
+
+player 2:
+    policy module: cartomancy.brains.policies.go_fish.random
+    policy class: GoFishRandomPolicy
+
+player 3:
+    policy module: cartomancy.brains.policies.go_fish.random
+    policy class: GoFishRandomPolicy
+
+player 4:
+    policy module: cartomancy.brains.policies.go_fish.random
+    policy class: GoFishRandomPolicy

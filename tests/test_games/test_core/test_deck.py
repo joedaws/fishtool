@@ -1,5 +1,5 @@
 import pytest
-from motherbrain.games.core.deck import Deck
+from cartomancy.games.core.deck import Deck
 
 
 @pytest.fixture

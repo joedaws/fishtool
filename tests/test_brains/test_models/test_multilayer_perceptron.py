@@ -1,6 +1,6 @@
-from motherbrain.brains.models.builders.multilayer_perceptron import MultilayerPerceptronBuilder
-from motherbrain import MOTHERBRAIN_PATH
-from motherbrain.brains.models.config.multilayer_perceptron import DEFAULT
+from cartomancy.brains.models.builders.multilayer_perceptron import MultilayerPerceptronBuilder
+from cartomancy import CARTOMANCY_PATH
+from cartomancy.brains.models.config.multilayer_perceptron import DEFAULT
 import os
 import pytest
 import tensorflow as tf
@@ -13,7 +13,7 @@ def model():
 
 
 def test_save_and_load(model):
-    project_path = os.path.dirname(MOTHERBRAIN_PATH)
+    project_path = os.path.dirname(CARTOMANCY_PATH)
     save_file_path = os.path.join(project_path, 'data/test_MLP')
     model.save(save_file_path)
 

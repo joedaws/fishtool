@@ -1,15 +1,15 @@
-from motherbrain.games.core.card_builder import CardBuilder
-from motherbrain.games.core.deck_builder import DeckBuilder
+from cartomancy.games.core.card_builder import CardBuilder
+from cartomancy.games.core.deck_builder import DeckBuilder
 import pytest
 
 
 @pytest.fixture
 def game_modules():
-    return ['motherbrain.games.go_fish']
+    return ['cartomancy.games.go_fish']
 
 @pytest.fixture
 def card_modules(game_modules):
-    return {'motherbrain.games.go_fish': ['card']}
+    return {'cartomancy.games.go_fish': ['card']}
 
 
 def test_card_builder(game_modules, card_modules):

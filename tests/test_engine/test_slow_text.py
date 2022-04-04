@@ -1,4 +1,4 @@
-from motherbrain.engine.animators.slow_text import SlowText
+from cartomancy.engine.animators.slow_text import SlowText
 
 
 def test_slow_text():
