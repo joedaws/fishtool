@@ -1,6 +1,6 @@
 # Cartomancy 
 
-_cartomancy_ is a project for me to explore two directions:
+_cartomancy_ is a project for exploring two efforts:
 
 1. Building a game engine for card games with python
 2. Use reinforcement learning to build agents to play card games. 
@@ -11,12 +11,21 @@ _cartomancy_ is a project for me to explore two directions:
 - Build a novel card game!
 
 ## Progress
-__Games Implemented__
+### Tech debt
+- [ ] use [poetry](https://python-poetry.org/) to manage dependencies.
+- [ ] separate the implementation of the games from the engine. (perhaps another repo?)
+
+### Features and Functionality
+- [ ] terminal window rendering of games
+- [ ] 2d window based rendering of games
+- [ ] UI to help users build their own games.
+
+### Games Implemented
 See the games [README](https://github.com/joedaws/cartomancy/tree/main/cartomancy/games) for more information.
 - [x] go fish
 - [ ] magnum opus (a game that I am designing.)
 
-__RL strategies implemented__
+### RL strategies implemented
 None yet. Only some rough outlines of how to approach this problem so far. These 
 are found in the _brains_ package. 
 
@@ -35,9 +44,7 @@ be trained to pay.
 * Clone this repository.  
 * install requirements in a virtual environemnt from `requirements.txt`
 
-### Card Games 
-
-#### Go fish
+### Playing Go Fish on the command line
 * Currently, only go fish is implemented. 
 * To run a game of GoFish between four players all using random policies use:
 
