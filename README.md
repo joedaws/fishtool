@@ -1,55 +1,46 @@
-# Cartomancy 
+# fishtool 
 
-_cartomancy_ is a project for exploring two efforts:
+_fishtool_ is a project for exploring two things:
 
-1. Building a game engine for card games with python
-2. Use reinforcement learning to build agents to play card games. 
+1. Building a simple cli to play a card game
+2. Examining the strategies for games like go fish with weak reward signal
 
 ## Goals
-- The games are implemented in such a way as to make it easy to capture _events_ that occur during game play. These events
+- The game is implemented in such a way as to make it easy to capture _events_ that occur during game play.
 - Having a uniform way to capture game events so that the RL algorithms implemented can be trained on any game which is implemented with the engine.
-- Build a novel card game!
 
-## Progress
-### Tech debt
-- [ ] use [poetry](https://python-poetry.org/) to manage dependencies.
-- [ ] separate the implementation of the games from the engine. (perhaps another repo?)
+## Setup
 
-### Features and Functionality
-- [ ] terminal window rendering of games
-- [ ] 2d window based rendering of games
-- [ ] UI to help users build their own games.
+Clone the repository and install the dependencies using
+[poetry](https://python-poetry.org/docs/):
 
-### Games Implemented
-See the games [README](https://github.com/joedaws/cartomancy/tree/main/cartomancy/games) for more information.
-- [x] go fish
-- [ ] magnum opus (a game that I am designing.)
+``` bash
+poetry install
+```
 
-### RL strategies implemented
-None yet. Only some rough outlines of how to approach this problem so far. These 
-are found in the _brains_ package. 
+Below are scripts run using =poetry='s =run= command.  
 
-Currently, only _go fish_ is implemented. This project is structed in such 
-a way as to allow for construction of new games for which agents may 
-be trained to pay.
+## Testing
 
-## Getting Started
+``` bash
+poetry run test
+```
 
-### Dependencies
+## Playing Go Fish on the command line
 
-* python 3.7.x or greater.
+### Play a game
+To run a game of GoFish between you and 3 computer players with purely random policies use:
 
-### Installing
+``` bash
+poetry run play
+```
 
-* Clone this repository.  
-* install requirements in a virtual environemnt from `requirements.txt`
 
-### Playing Go Fish on the command line
-* Currently, only go fish is implemented. 
-* To run a game of GoFish between four players all using random policies use:
+### Automatic play with random policy
+To run a game of GoFish between four players all using random policies use:
 
 ```
-python -m cartomancy.games.run --game-config cartomancy/games/go_fish/config/random.yaml
+poetry run play_random
 ```
 
 ## License

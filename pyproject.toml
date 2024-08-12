@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "cartomancy"
+version = "0.1.0"
+description = "Server for text based card games"
+authors = ["Joe <daws.joseph@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pyyaml = "^6.0.2"
+numpy = "^2.0.1"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.2"
+
+[tool.poetry.scripts]
+test = 'scripts.test:main'
+play = 'scripts.play:human'
+play_random = 'scripts.play:random'
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
