@@ -1,8 +1,0 @@
-pytest~=5.3.5
-motherBrain~=0.1.0
-tensorflow~=2.0.0
-numpy~=1.18.1
-gym~=0.17.1
-setuptools~=46.0.0
-yaml~=0.1.7
-pyyaml~=5.3

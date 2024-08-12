@@ -9,9 +9,8 @@ import os
 
 @pytest.fixture
 def game():
-"""Parse configs, create game, and play."""
-config_path = os.path.join(CARTOMANCY_PATH, 'games/go_fish/config/')
-    go_fish_config_path = os.path.join(config_path, 'random.yaml')
+    """Parse configs, create game, and play."""
+    go_fish_config_path = 'config/go_fish/random.yaml'
 
     # load config
     with open(go_fish_config_path, 'rb') as stream:

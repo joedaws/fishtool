@@ -1,8 +1,8 @@
 import pytest
-from motherbrain.players.go_fish import GoFishPlayer
-from motherbrain.brains.spaces.go_fish.observations import Observations
-from motherbrain.games.core.events import BookEvent, AskEvent, DrawEvent
-from motherbrain.games.core.deck import Deck
+from cartomancy.players.go_fish import GoFishPlayer
+from cartomancy.brains.spaces.go_fish.observations import Observations
+from cartomancy.games.core.events import BookEvent, AskEvent, DrawEvent
+from cartomancy.games.core.deck import Deck
 
 
 @pytest.fixture

@@ -26,4 +26,3 @@ player 3:
 player 4:
     policy module: cartomancy.brains.policies.go_fish.random
     policy class: GoFishRandomPolicy
-
